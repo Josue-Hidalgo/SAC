@@ -130,10 +130,18 @@
     <ClCompile Include="SistemaAdministracionColas.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Area.h" />
+    <ClInclude Include="ArrayList.h" />
+    <ClInclude Include="Definiciones.h" />
     <ClInclude Include="HeapPriorityQueue.h" />
     <ClInclude Include="KVPair.h" />
+    <ClInclude Include="List.h" />
     <ClInclude Include="MinHeap.h" />
     <ClInclude Include="PriorityQueue.h" />
+    <ClInclude Include="Servicio.h" />
+    <ClInclude Include="TipoUsuario.h" />
+    <ClInclude Include="Tiquete.h" />
+    <ClInclude Include="Ventanilla.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

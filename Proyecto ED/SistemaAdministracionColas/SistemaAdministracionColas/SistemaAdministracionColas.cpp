@@ -187,7 +187,7 @@ void searchInQueue(const int& area, const int& windowNum) {
 		Actualiza los datos necesarios para que se refleje en las estadísticas del sistema. 
 		
 		Si no hay ningún elemento en la cola respectiva, debe indicar que no hay usuarios en
-		espera. Luego de realizar la acción, regresa al menú principal.
+		espera.
 
 	*/
 }
