@@ -7,7 +7,7 @@
 # Previous Requirements #
 - A C++ compiler
 
-# External Documentation #[
+# External Documentation #
 [Link Documentation](https://drive.google.com/drive/folders/1DubDwuWA3XmyeDXJ5gcQBNAIwk_ApJRm?usp=sharing)
 
 # Contribuidores/Integrantes #
