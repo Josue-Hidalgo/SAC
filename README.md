@@ -7,8 +7,8 @@
 # Previous Requirements #
 - A C++ compiler
 
-# External Documentation #
-[Link to Documentation]([url](https://drive.google.com/drive/folders/1DubDwuWA3XmyeDXJ5gcQBNAIwk_ApJRm?usp=sharing))
+# External Documentation #[
+Link Documentation](https://drive.google.com/drive/folders/1DubDwuWA3XmyeDXJ5gcQBNAIwk_ApJRm?usp=sharing)
 
 # Contribuidores/Integrantes #
 - Josue Hidalgo // Marvin Castro // Sebastián ...
