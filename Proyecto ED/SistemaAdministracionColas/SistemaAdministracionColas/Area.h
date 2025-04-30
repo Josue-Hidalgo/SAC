@@ -13,19 +13,35 @@ using std::endl;
 using std::string;
 using std::runtime_error;
 
-template <typename E>
 class Area {
 private:
 	string codigo;
 	string nombre;
 	string descripcion;
 	int numeroVentanillas;
-	ArrayList<Ventanilla> listaVentanillas;
-	HeapPriorityQueue<Tiquete> colaTiquetes;
+	ArrayList<Ventanilla>* listaVentanillas;
+	HeapPriorityQueue<Tiquete>* colaTiquetes;
 
 public:
-	Area(string codigo, string nombre, string descripcion)
-		: codigo(codigo), nombre(nombre), descripcion(descripcion) {
+
+	
+	Area(string codigo, string nombre, string descripcion, int numeroVentanillas)
+		: codigo(codigo), nombre(nombre), descripcion(descripcion), numeroVentanillas(numeroVentanillas) {
+
+		listaVentanillas = new ArrayList<Ventanilla>(numeroVentanillas);
+		colaTiquetes = new HeapPriorityQueue<Tiquete>(numeroVentanillas);
+		/*
+		for (int i = 0; i < numeroVentanillas; i++) {
+			Ventanilla ventanilla(nombre + std::to_string(i + 1));
+			listaVentanillas.append(ventanilla);
+		}
+		*/
+	}
+
+	~Area() {
+		// Destructor
+		delete[] listaVentanillas;
+		delete[] colaTiquetes;
 	}
 
 	string getCodigo() const { return codigo; }
