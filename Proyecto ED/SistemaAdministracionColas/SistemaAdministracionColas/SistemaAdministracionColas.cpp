@@ -4,15 +4,15 @@
 
 	Nombre del archivo: SistemaAdministracionColas.cpp
 
-	Descripción: 
+	Descripción:
 	Implementación de un sistema de administración de colas utilizando un
 	montículo mínimo. Este sistema permite gestionar la llegada y salida de
 	usuarios (de tipos especificos), priorizando a aquellos con mayor urgencia
 	(esto depende tanto del tipo de usuario como tramite a realizar).
 
-	Autores: 
+	Autores:
 		Josue Hidalgo
-		Sebastián 
+		Sebastián
 		Marvin
 
 */
@@ -22,6 +22,17 @@
 #include <string>
 #include <stdexcept>
 
+// Clases 
+#include "Area.h"
+#include "TipoUsuario.h"
+#include "Servicio.h"
+#include "Tiquete.h"
+#include "List.h"
+#include "ArrayList.h"
+#include "HeapPriorityQueue.h"
+#include "PriorityQueue.h"
+
+
 // Importar con nombres conocidos
 using std::cout;
 using std::cin;
@@ -30,6 +41,11 @@ using std::endl;
 using std::string;
 using std::invalid_argument;
 
+/*VARIABLES GLOBALES*/
+
+List<Area>* areas = new ArrayList<Area>();
+PriorityQueue<TipoUsuario>* tiposUsuario = new HeapPriorityQueue<TipoUsuario>();
+List<Servicio>* servicios = new ArrayList<Servicio>();
 
 // INPUT FUNCTIONS
 int inputInt(const string& message) {
@@ -74,14 +90,14 @@ void printMenu() {
 	cout << "Menu: " << endl;
 	cout << "1. Estado de Colas." << endl;
 	cout << "2. Tiquetes. Quiero obtener un tiquete y entrar en cola." << endl;
-	cout << "3. Atender. Quiero saber donde puedo ser atendido." << endl;
+	cout << "3. Atender. Quiero saber quien será el siguiente en ser atendido." << endl;
 	cout << "4. Administración. Soy un administrador" << endl;
 	cout << "5. Estadísticas. Quiero ver las estadísticas del sistema." << endl;
 	cout << "0. Quiero SALIR." << endl;
 }
 
 void printWaitKey() {
-	cout << "Presione cualquier tecla para continuar..." << endl;
+	cout << "Presione ENTER para continuar..." << endl;
 	string dummy;
 	getline(cin, dummy);
 }
@@ -166,26 +182,32 @@ void createTicket(const int& userType, const int& service) {
 }
 
 void getTicket() {
-	
+
 	printUserTypes(); // Listar tipos de usuarios del 1 al número de tipos
 	int userType = inputInt("Seleccione el tipo de usuario: ");
-	
+
 	printServices(); // Listar servicios del 1 al número de tipos
 	int service = inputInt("Seleccione el servicio: ");
-	
+
 	createTicket(userType, service);
+}
+
+void getArea(const Area& areas, const string& codigo) {
+
+
+
 }
 
 // AUX_OPCION 3
 void searchInQueue(const int& area, const int& windowNum) {
 	/*
-		Busca en la cola respectiva el siguiente tiquete a atender. 
-		
+		Busca en la cola respectiva el siguiente tiquete a atender.
+
 		Lo elimina de la cola y lo asigna como el tiquete que se está atendiendo
-		actualmente en la caja. 
-		
-		Actualiza los datos necesarios para que se refleje en las estadísticas del sistema. 
-		
+		actualmente en la caja.
+
+		Actualiza los datos necesarios para que se refleje en las estadísticas del sistema.
+
 		Si no hay ningún elemento en la cola respectiva, debe indicar que no hay usuarios en
 		espera.
 
@@ -202,9 +224,9 @@ void admUserTypes() {
 		waitAndClear();
 
 		printAdmUserTypesMenu();
-		
+
 		option = inputInt("Seleccione una opción: ");
-		
+
 		switch (option) {
 		case 1:
 			// Implementación de la función para agregar tipo de usuario
@@ -231,7 +253,7 @@ void admAreas() {
 
 		printAdmAreasMenu();
 
-		option = inputInt("Seleccione una opción: "); 
+		option = inputInt("Seleccione una opción: ");
 
 		switch (option) {
 		case 1:
@@ -291,7 +313,7 @@ void admClearQueueStatistics() {
 	del sistema sin alterar tipos de usuario, servicios, ni áreas. Luego de realizar la acción regresa al
 	menú de administración.
 	*/
-	
+
 	waitAndClear();
 	cout << "Se limpiaron las colas y estadísticas" << endl;
 }
@@ -302,7 +324,32 @@ void admClearQueueStatistics() {
 void queueState() {
 	waitAndClear();
 	// Implementación de la función para mostrar el estado de las colas
-	cout << "Estado de las colas:" << endl;
+	cout << "--- Estado de las colas ---" << endl;
+
+	for (areas->goToStart(); !areas->atEnd(); areas->next()) {
+		Area area = areas->getElement();
+		area.printQueueState();
+		cout << endl;
+	}
+
+
+	/*
+		Debe mostrar las áreas existentes, la cantidad de ventanillas definidas para cada área y los códigos
+		de los tiquetes presentes en las diferentes colas.
+
+		Cada ventanilla debe mostrar el código del último tiquete atendido.
+
+		Espera a que el usuario presione alguna tecla para regresar al menú principal.
+
+		--- Estado de las colas ---
+
+		Área de Atención General (AG)
+		Cantidad de ventanillas: 3
+		- Ventanilla 1: Tiquete AG-001
+		- Ventanilla 2: Tiquete AG-002
+		- Ventanilla 3: Tiquete AG-003
+	*/
+
 }
 
 //OPCION 2
@@ -312,9 +359,9 @@ void ticket() {
 		waitAndClear();
 
 		printTicketMenu();
-		
+
 		option = inputInt("Seleccione una opción: ");
-		
+
 		switch (option) {
 		case 1:
 			getTicket();
@@ -381,10 +428,37 @@ void statistics() {
 	cout << "Estadísticas del sistema:" << endl;
 }
 
+// Main Auxiliary Function
+void lookForService(const string& serviceCode) {
+
+}
+
+//Area lookForArea(const string& areaCode) {}
+
 int main() {
+	// Inicializar Áreas y ventanillas
+	areas->append(Area("AG", "Área de Atención General", "Atención general a clientes.", 3));
+	areas->append(Area("AF", "Área de Asesoría Financiera", "Apertura de cuentas, Solicitud de tarjetas de crédito/débito, Préstamos personales o hipotecarios.", 2));
+	areas->append(Area("PY", "Área de PyMEs", "Atención a pequeños y medianos empresarios.", 4));
+	areas->append(Area("BP", "Área de Banca Privada", "Clientes con alto patrimonio. Inversiones y seguros", 2));
+	areas->append(Area("SP", "Área de Asesoría de Seguros y Pensiones", "Atención a finanzas y contabilidad.", 3));
+	areas->append(Area("SD", "Área de Soluciones Digitales", "Banca en Línea, Token digital", 3));
 
+	/*
+	// Inicializar Tipos de usuario
+	tiposUsuario->insert(TipoUsuario("Cliente Banca Privada / Corporate", "	Máxima prioridad: clientes VIP con saldos altos, atención exclusiva sin filas", 0), 0);
+	tiposUsuario->insert(TipoUsuario("Cliente Tarjeta Premium", "Titulares de Infinite/Black con acceso a filas rápidas y beneficios", 1), 1);
+	tiposUsuario->insert(TipoUsuario("Cliente PyMEs", "	Pequeñas empresas con atención en áreas comerciales especiales", 2), 2);
+	tiposUsuario->insert(TipoUsuario("Cliente Adultos Mayores/Discapacidad", "Prioridad humanitaria en algunas sucursales", 3), 3);
+	tiposUsuario->insert(TipoUsuario("Cliente Clientes Personales (Gold/Platinum)", "Cuentas personales con tarjetas premium, atención estándar", 3), 3);
+	tiposUsuario->insert(TipoUsuario("Cuentas Básicas (Ahorro/Corriente)", "Clientes regulares, filas generales o autoservicio", 4), 4);
+	tiposUsuario->insert(TipoUsuario("Cliente BAC Joven (Adolescentes)", "Cuentas para jóvenes sin prioridad en atención", 4), 4);
+	
 
+	// Inicializar Servicios
+	Servicio* servicio1 = new Servicio("Apertura de cuenta", "Apertura de cuentas de ahorro o corriente", 0, );
 
+	*/
 	try {
 		printTitle();
 
@@ -420,15 +494,24 @@ int main() {
 				break;
 			}
 		}
-	} catch (const std::runtime_error& e) {
+	}
+	catch (const std::runtime_error& e) {
 		cout << "Error: " << e.what() << endl;
 		return 1;
-	} catch (const std::invalid_argument&) {
+	}
+	catch (const std::invalid_argument&) {
 		cout << "Error: Entrada no válida. No es un número." << endl;
-	} catch (const std::out_of_range&) {
+	}
+	catch (const std::out_of_range&) {
 		cout << "Error: Número fuera de rango." << endl;
-	} catch (const std::exception& e) {
+	}
+	catch (const std::exception& e) {
 		cout << "Error inesperado: " << e.what() << endl;
 	}
+
+	delete areas;
+	delete tiposUsuario;
+	delete servicios;
+
 	return 0;
 }

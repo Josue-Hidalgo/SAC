@@ -16,22 +16,31 @@ using std::runtime_error;
 class Ventanilla {
 private:
 	string nombre;
-	string tiqueteAtendido; // puede que este vacío al principio hasta que se atienda un tiquete
+	string ultimoTiqueteAtendido; // puede que este vacío al principio hasta que se atienda un tiquete
 
 public:
-	Ventanilla(string nombre) : nombre(nombre), tiqueteAtendido("") {}
+	Ventanilla(string nombre) : nombre(nombre), ultimoTiqueteAtendido("No se ha atendido a ninguno.") {}
 	
+	/*
+	
+	Ventanilla(string nombre){
+		this->nombre = nombre;
+		tiqueteAtendido = "";
+	}
+
+	*/
+
 	string getNombre() const { return nombre; }
 	
-	string getTiqueteAtendido() const { return tiqueteAtendido; }
+	string getTiqueteAtendido() const { return ultimoTiqueteAtendido; }
 	
 	void setNombre(string nombre) { this->nombre = nombre; }
 	
-	void setTiqueteAtendido(string tiqueteAtendido) { this->tiqueteAtendido = tiqueteAtendido; }
+	void setTiqueteAtendido(string tiqueteAtendido) { this->ultimoTiqueteAtendido = tiqueteAtendido; }
 	
 	void print() const {
 		cout << "Ventanilla: " << nombre << endl;
-		cout << "Atendiendo Tiquete: " << tiqueteAtendido << endl;
+		cout << "Último tiquete atendido: " << ultimoTiqueteAtendido << endl;
 	}
 };
 

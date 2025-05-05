@@ -1,10 +1,9 @@
 #pragma once
 
-#define DEFAULT_MAX 1024
-
 #include <iostream>
 #include <stdexcept>
 #include "List.h"
+#include "Definiciones.h"
 
 using std::cout;
 using std::endl;
@@ -146,6 +145,5 @@ public:
 		cout << "]" << endl;
 
 	}
-
 };
 

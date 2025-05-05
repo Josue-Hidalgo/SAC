@@ -41,7 +41,7 @@ public:
 	
 	void print() const {
 		cout << "Tiquete: " << codigo << endl;
-		cout << "Hora: " << ctime(&hora); // se imprime hh:mm:ss
+		//cout << "Hora: " << ctime(&hora); // se imprime hh:mm:ss
 		cout << "Prioridad Final: " << prioridadFinal << endl;
 	}
 };
