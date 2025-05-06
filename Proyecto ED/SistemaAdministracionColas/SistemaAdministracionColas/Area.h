@@ -1,25 +1,24 @@
 
 /*
-
-	Descripción General:
-
-	Nombre del archivo: Area.h
-
-	Descripción: Esta es una implementación de la clase Area.
-	Es donde se almacenan los datos de cada área del sistema.
-	Area es una clase que representa un área en donde se formará 
-	una cola de los tiquetes. 
-
-	Autor: Mauricio Avilés Cisneros
-
-*/
+ * Descripción General:
+ * 
+ * Nombre del archivo: Area.h
+ *
+ * Clase que representa un área en el sistema de administración de colas.
+ * Esta clase contiene información sobre el código, nombre, descripción,
+ * y número de ventanillas. También gestiona una lista de ventanillas
+ * en la que se pueden agregar o eliminar ventanillas, y una cola de
+ * prioridad para manejar los tiquetes.
+ *
+ * Autor: Josue Hidalgo
+ */
 
 #pragma once
 
 #include <iostream>
 #include <string>
 #include <stdexcept>
-#include "HeapPriorityQueue.h"
+#include "LinkedPriorityQueue.h"
 #include "Tiquete.h"
 #include "Ventanilla.h"
 #include "ArrayList.h"
@@ -31,58 +30,38 @@ using std::to_string;
 using std::runtime_error;
 
 class Area {
-private:
-	/*
-	// Asignación
-	void operator=(const Area& other) {
-		if (this != &other) {
-			codigo = other.codigo;
-			nombre = other.nombre;
-			descripcion = other.descripcion;
-			numeroVentanillas = other.numeroVentanillas;
-			delete listaVentanillas;
-			listaVentanillas = new ArrayList<Ventanilla>(*other.listaVentanillas);
-			if (colaTiquetes)
-				delete colaTiquetes;
-			colaTiquetes = other.colaTiquetes ? new HeapPriorityQueue<Tiquete>(*other.colaTiquetes) : nullptr;
-		}
-	}
-
-	// Constructor de copia
-	Area(const Area& other)
-		: codigo(other.codigo), nombre(other.nombre), descripcion(other.descripcion), numeroVentanillas(other.numeroVentanillas) {
-		listaVentanillas = new ArrayList<Ventanilla>(*other.listaVentanillas);
-		colaTiquetes = other.colaTiquetes ? new HeapPriorityQueue<Tiquete>(*other.colaTiquetes) : nullptr;
-	}
-	*/
-
+private:	
 	string codigo;
 	string nombre;
 	string descripcion;
 	int numeroVentanillas;
-	ArrayList<Ventanilla>* listaVentanillas;
-	HeapPriorityQueue<Tiquete>* colaTiquetes;
+	ArrayList<Ventanilla> listaVentanillas;
+	LinkedPriorityQueue<Tiquete>* colaTiquetes;
 
 public:
 
 	Area()
 		: codigo(""), nombre(""), descripcion(""), numeroVentanillas(1) {
-		listaVentanillas = new ArrayList<Ventanilla>(1); // Inicializa con tamaño 0
-		colaTiquetes = nullptr; // Inicializa como nullptr ya que no hay cola
+		listaVentanillas.append(Ventanilla());
+		colaTiquetes = nullptr;
 	}
 
 	Area(string codigo, string nombre, string descripcion, int numeroVentanillas)
 		: codigo(codigo), nombre(nombre), descripcion(descripcion), numeroVentanillas(numeroVentanillas), colaTiquetes(nullptr) {
 		
-		listaVentanillas = new ArrayList<Ventanilla>(numeroVentanillas);
 		for (int i = 1; i <= numeroVentanillas; i++)
-			listaVentanillas->append(Ventanilla(nombre + to_string(i)));
-	
+			listaVentanillas.append(Ventanilla(codigo + to_string(i)));
 	}
 
 	~Area() {
-		delete listaVentanillas;
+		delete colaTiquetes;
 	}
+
+    // Modificación del constructor de copia para corregir los errores
+    Area(const Area& other)
+		: codigo(other.codigo), nombre(other.nombre), descripcion(other.descripcion), numeroVentanillas(other.numeroVentanillas),
+		listaVentanillas(other.listaVentanillas), colaTiquetes(other.colaTiquetes) {
+    }
 
 	string getCodigo() const { return codigo; }
 	
@@ -90,17 +69,63 @@ public:
 	
 	string getDescripcion() const { return descripcion; }
 	
+	ArrayList<Ventanilla> getListaVentanillas() {
+		return listaVentanillas;
+	}
+
+	int getNumeroVentanillas() const { return numeroVentanillas; }
+
 	void setCodigo(string codigo) { this->codigo = codigo; }
 	
 	void setNombre(string nombre) { this->nombre = nombre; }
 	
 	void setDescripcion(string descripcion) { this->descripcion = descripcion; }
 	
+	void setNuevoNumeroVentanillas(int numeroVentanillas) {
+		if (numeroVentanillas <= 0)
+			throw runtime_error("La cantidad de ventanillas debe ser mayor a cero.");
+		this->numeroVentanillas = numeroVentanillas;
+		eliminarVentanillas();
+		for (int i = 1; i <= numeroVentanillas; i++)
+			listaVentanillas.append(Ventanilla(codigo + to_string(i)));
+	}
+
+	void eliminarVentanillas() {
+		listaVentanillas.clear();
+	}
+
+	void agregarTiquete(Tiquete tiquete) {
+		if (colaTiquetes == nullptr)
+			colaTiquetes = new LinkedPriorityQueue<Tiquete>();
+		colaTiquetes->insert(tiquete, tiquete.getPrioridadFinal());
+	}
+
+	void mostrarEstadoVentanillas() {
+		if (listaVentanillas.getSize() == 0)
+			throw runtime_error("No hay ventanillas disponibles.");
+
+		for (int i = 0; i < listaVentanillas.getSize(); i++) {
+			listaVentanillas.goToPos(i);
+			Ventanilla ventanilla = listaVentanillas.getElement();
+			
+			cout << "Ventanilla " << ventanilla.getNombre() << ": ";
+			if (!ventanilla.estaDisponible())
+				cout << "Atendiendo Tiquete " << ventanilla.getTiqueteActual() << endl;
+			else
+				cout << "Libre" << endl;
+		}
+	}
+
 	void print() const {
 		cout << "Área: " << nombre << endl;
 		cout << "Descripción: " << descripcion << endl;
 	}
 
-	friend 
+	friend ostream& operator <<(ostream& os, const Area& area) {
+		os << "Área: " << area.nombre << endl;
+		//os << "Descripción: " << area.descripcion << endl;
+		os << "Número de Ventanillas: " << area.numeroVentanillas << endl;
+		return os;
+	}
 };
 

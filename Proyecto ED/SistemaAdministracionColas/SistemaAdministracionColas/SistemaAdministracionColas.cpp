@@ -23,15 +23,9 @@
 #include <stdexcept>
 
 // Clases 
-#include "Area.h"
-#include "TipoUsuario.h"
-//#include "Servicio.h"
-#include "Tiquete.h"
-#include "List.h"
-#include "ArrayList.h"
-#include "HeapPriorityQueue.h"
-#include "PriorityQueue.h"
-
+#include "Controlador.h"
+#include "AdmTiposUsuario.h"
+#include "AdmAreas.h"
 
 // Importar con nombres conocidos
 using std::cout;
@@ -42,20 +36,19 @@ using std::string;
 using std::invalid_argument;
 
 /*VARIABLES GLOBALES*/
-
-List<Area>* areas = new ArrayList<Area>();
-PriorityQueue<TipoUsuario>* tiposUsuario = new HeapPriorityQueue<TipoUsuario>();
-//List<Servicio>* servicios = new ArrayList<Servicio>();
+Controlador controlador;
+AdmTiposUsuario adminTiposUsuario;
+AdmAreas adminAreas;
 
 // INPUT FUNCTIONS
-int inputInt(const string& message) {
+static int inputInt(const string& message) {
 	string input;
 	cout << message;
 	getline(cin, input);
 	return stoi(input); // stoi (string to integer) lanza std::out_of_range y std::invalid_argument si no es válido
 }
 
-string inputString(const string& message) {
+static string inputString(const string& message) {
 	string input;
 	cout << message;
 	getline(cin, input);
@@ -66,7 +59,7 @@ string inputString(const string& message) {
 
 // PRINTS 
 
-void printTitle() {
+static void printTitle() {
 	cout << endl;
 	cout << "Bienvenido a ... " << endl;
 	cout << "Sistema de Administración de Colas" << endl;
@@ -86,7 +79,7 @@ void printTitle() {
 
 }
 
-void printMenu() {
+static void printMenu() {
 	cout << "Menu: " << endl;
 	cout << "1. Estado de Colas." << endl;
 	cout << "2. Tiquetes. Quiero obtener un tiquete y entrar en cola." << endl;
@@ -96,45 +89,42 @@ void printMenu() {
 	cout << "0. Quiero SALIR." << endl;
 }
 
-void printWaitKey() {
+static void printWaitKey() {
 	cout << "Presione ENTER para continuar..." << endl;
 	string dummy;
 	getline(cin, dummy);
 }
 
-void printNewPage() {
+static void printNewPage() {
 	for (int i = 0; i < 50; i++)
 		cout << endl;
 }
 
-void printUserTypes() {
-	cout << "Tipos de usuarios:" << endl;
-	// Aquí se mostrarían los tipos de usuarios disponibles
-	// Esta lista debe ser mostrada en el orden en
-	// que se configuró en el sistema, no debe ser fija, ni por áreas.
+static void printUserTypes() {
+	adminTiposUsuario.listar();
 }
 
-void printTicketMenu() {
+static void printTicketMenu() {
 	cout << "Menu de Tiquetes:" << endl;
 	cout << "1. Obtener un tiquete." << endl;
 	cout << "0. SALIR. Regresa al menú principal." << endl;
 }
 
-void printServices() {
+static void printServices() {
 	// Aquí se mostrarían los servicios disponibles
 }
 
-void printAreas() {
+static void printAreas() {
 	cout << "Áreas disponibles:" << endl;
 	// Aquí se mostrarían las áreas disponibles
 }
 
-void printWindowNumber() {
+static void printWindowNumber() {
 	cout << "Número de ventanilla:" << endl;
 	// Aquí se mostrarían los números de ventanilla disponibles
 }
 
-void printAdmMenu() {
+static void printAdmMenu() {
 	cout << "Menu de Administración:" << endl;
 	cout << "1. Configuración de tipos de usuarios." << endl;
 	cout << "2. Configuración de áreas." << endl;
@@ -143,14 +133,14 @@ void printAdmMenu() {
 	cout << "0. SALIR." << endl;
 }
 
-void printAdmUserTypesMenu() {
+static void printAdmUserTypesMenu() {
 	cout << "Menu de Administración de Tipos de Usuarios:" << endl;
 	cout << "1. Agregar tipo de usuario." << endl;
 	cout << "2. Eliminar tipo de usuario." << endl;
 	cout << "0. SALIR." << endl;
 }
 
-void printAdmAreasMenu() {
+static void printAdmAreasMenu() {
 	cout << "Menu de Administración de Áreas:" << endl;
 	cout << "1. Agregar área." << endl;
 	cout << "2. Eliminar área." << endl;
@@ -158,7 +148,7 @@ void printAdmAreasMenu() {
 	cout << "0. SALIR." << endl;
 }
 
-void printAdmServicesMenu() {
+static void printAdmServicesMenu() {
 	cout << "Menu de Administración de Servicios:" << endl;
 	cout << "1. Agregar servicio." << endl;
 	cout << "2. Eliminar servicio." << endl;
@@ -166,40 +156,101 @@ void printAdmServicesMenu() {
 	cout << "0. SALIR." << endl;
 }
 
+/*OPERATIONS*/
+
+/*USERTYPE*/
+static void addUserType() {
+	string nombre = inputString("Ingrese el nombre del tipo de usuario: ");
+	string descripcion = inputString("Ingrese la descripción del tipo de usuario: ");
+	int prioridad = inputInt("Ingrese la prioridad del tipo de usuario: ");
+	
+	if (prioridad < 0)
+		throw runtime_error("La prioridad no puede ser negativa.");
+
+	adminTiposUsuario.agregar(nombre, descripcion, prioridad);
+
+	cout << "Tipo de usuario agregado exitosamente." << endl;
+}
+
+static bool listUserTypes() {
+	return adminTiposUsuario.listar();
+}
+
+static void deleteUserType() {
+	try {
+		int posicion = inputInt("Ingrese el numero de Tipo de Usuario que quiere eliminar: ") - 1;
+		string nombre = adminTiposUsuario.eliminar(posicion);
+		cout << "Tipo de Usuario eliminado: " << nombre << endl;
+	} catch (runtime_error) {
+		cout << "No se pudo eliminar el tipo de usuario." << endl;
+	}
+
+}
+
+/*AREAS*/
+static void addArea() {
+	string codigo = inputString("Ingrese el código del área: ");
+	string nombre = inputString("Ingrese el nombre del área: ");
+	string descripcion = inputString("Ingrese la descripción del área: ");
+	int numeroVentanillas = inputInt("Ingrese la cantidad de ventanillas: ");
+	
+	if (numeroVentanillas <= 0)
+		throw runtime_error("La cantidad de ventanillas debe ser mayor a cero.");
+
+	adminAreas.agregar(codigo, nombre, descripcion, numeroVentanillas);
+
+	cout << "Área agregada exitosamente." << endl;
+}
+
+static bool listAreas() {
+	return adminAreas.listar();
+}
+
+static void deleteArea() {
+	int posicion = inputInt("Ingrese el número de área que desea eliminar: ") - 1;
+	string nombre = adminAreas.eliminar(posicion);
+	cout << "Área eliminada: " << nombre << endl;
+}
+
+static void modifyArea() {
+	int posicion = inputInt("Ingrese el número de área que desea modificar: ") - 1;
+	int nuevoNumeroVentanillas = inputInt("Ingrese la nueva cantidad de ventanillas: ");
+
+	adminAreas.modificar(posicion, nuevoNumeroVentanillas);
+
+	cout << "Área modificada exitosamente." << endl;
+}
+
 /*AUXILIARES*/
 
 // AUX_GENERAL
-void waitAndClear() {
+static void waitAndClear() {
 	printWaitKey();
 	printNewPage();
 }
 
 // AUX_OPCION 2
-void createTicket(const int& userType, const int& service) {
+static void createTicket(const int& userType, const int& service) {
 	// Aquí se implementaría la lógica para crear un tiquete
 	cout << "Creando un tiquete..." << endl;
 	// Lógica para crear el tiquete y agregarlo a la cola correspondiente
 }
 
-void getTicket() {
+static void getTicket() {
 
 	printUserTypes(); // Listar tipos de usuarios del 1 al número de tipos
-	int userType = inputInt("Seleccione el tipo de usuario: ");
+	int userType = inputInt("Seleccione el numero de tipo de usuario: ");
 
 	printServices(); // Listar servicios del 1 al número de tipos
-	int service = inputInt("Seleccione el servicio: ");
+	int service = inputInt("Seleccione el numero de servicio: ");
 
 	createTicket(userType, service);
 }
 
-void getArea(const Area& areas, const string& codigo) {
-
-
-
-}
+static void getArea() {}
 
 // AUX_OPCION 3
-void searchInQueue(const int& area, const int& windowNum) {
+static void searchInQueue(const int& area, const int& windowNum) {
 	/*
 		Busca en la cola respectiva el siguiente tiquete a atender.
 
@@ -216,12 +267,12 @@ void searchInQueue(const int& area, const int& windowNum) {
 
 // AUX_OPCION 4
 
-void admUserTypes() {
-
+static void admUserTypes() {
+	bool isEmpty = false;
 	int option = -1;
 
 	while (option != 0) {
-		waitAndClear();
+		//waitAndClear();
 
 		printAdmUserTypesMenu();
 
@@ -230,10 +281,15 @@ void admUserTypes() {
 		switch (option) {
 		case 1:
 			// Implementación de la función para agregar tipo de usuario
+			addUserType();
 			break;
-		case 2:
+		case 2:{
 			// Implementación de la función para eliminar tipo de usuario
+			isEmpty = listUserTypes();
+			if (!isEmpty)
+				deleteUserType();
 			break;
+		}
 		case 0:
 			cout << "Regresando al menú principal..." << endl;
 			break;
@@ -244,12 +300,12 @@ void admUserTypes() {
 	}
 }
 
-void admAreas() {
-
+static void admAreas() {
+	bool isEmpty = false;
 	int option = -1;
 
 	while (option != 0) {
-		waitAndClear();
+		//waitAndClear();
 
 		printAdmAreasMenu();
 
@@ -258,12 +314,19 @@ void admAreas() {
 		switch (option) {
 		case 1:
 			// Implementación de la función para agregar área
+			addArea();
 			break;
 		case 2:
 			// Implementación de la función para eliminar área
+			isEmpty = listAreas();
+			if (!isEmpty)
+				deleteArea();
 			break;
 		case 3:
 			// Implementación de la función para modificar cantidad de ventanillas
+			isEmpty = listAreas();
+			if (!isEmpty)
+				modifyArea();
 			break;
 		case 0:
 			cout << "Regresando al menú principal..." << endl;
@@ -275,12 +338,12 @@ void admAreas() {
 	}
 }
 
-void admServices() {
+static void admServices() {
 
 	int option = -1;
 
 	while (option != 0) {
-		waitAndClear();
+		//waitAndClear();
 
 		printAdmServicesMenu();
 
@@ -306,7 +369,7 @@ void admServices() {
 	}
 }
 
-void admClearQueueStatistics() {
+static void admClearQueueStatistics() {
 	/*
 	Elimina los contenidos de todas las colas de prioridad, los tiquetes atendidos en ventanillas y
 	los datos de las estadísticas que se hayan registrado hasta el momento. Es una reinicialización
@@ -314,49 +377,24 @@ void admClearQueueStatistics() {
 	menú de administración.
 	*/
 
-	waitAndClear();
+	//waitAndClear();
 	cout << "Se limpiaron las colas y estadísticas" << endl;
 }
 
 /*OPCIONES PRINCIPALES*/
 
 //OPCION 1
-void queueState() {
-	waitAndClear();
+static void queueState() {
+	//waitAndClear();
 	// Implementación de la función para mostrar el estado de las colas
 	cout << "--- Estado de las colas ---" << endl;
-
-	for (areas->goToStart(); !areas->atEnd(); areas->next()) {
-		Area area = areas->getElement();
-		area.printQueueState();
-		cout << endl;
-	}
-
-
-	/*
-		Debe mostrar las áreas existentes, la cantidad de ventanillas definidas para cada área y los códigos
-		de los tiquetes presentes en las diferentes colas.
-
-		Cada ventanilla debe mostrar el código del último tiquete atendido.
-
-		Espera a que el usuario presione alguna tecla para regresar al menú principal.
-
-		--- Estado de las colas ---
-
-		Área de Atención General (AG)
-		Cantidad de ventanillas: 3
-		- Ventanilla 1: Tiquete AG-001
-		- Ventanilla 2: Tiquete AG-002
-		- Ventanilla 3: Tiquete AG-003
-	*/
-
 }
 
 //OPCION 2
-void ticket() {
+static void ticket() {
 	int option = -1;
 	while (option != 0) {
-		waitAndClear();
+		//waitAndClear();
 
 		printTicketMenu();
 
@@ -374,7 +412,7 @@ void ticket() {
 }
 
 //OPCION 3
-void attend() {
+static void attend() {
 	printAreas();
 	int area = inputInt("Seleccione el área: ");
 
@@ -385,12 +423,12 @@ void attend() {
 }
 
 //OPCION 4
-void administration() {
+static void administration() {
 
 	int option = -1;
 
 	while (option != 0) {
-		waitAndClear();
+		//waitAndClear();
 
 		printAdmMenu();
 
@@ -420,51 +458,18 @@ void administration() {
 }
 
 //OPCION 5
-void statistics() {
-	/*
-	Se muestran todas las estadísticas explicadas anteriormente de una forma clara y concisa.Se
-		espera a que el usuario presione alguna tecla para regresar al menú principal.
-	*/
+static void statistics() {
 	cout << "Estadísticas del sistema:" << endl;
 }
 
-// Main Auxiliary Function
-void lookForService(const string& serviceCode) {
-
-}
-
-//Area lookForArea(const string& areaCode) {}
-
 int main() {
-	// Inicializar Áreas y ventanillas
-	areas->append(Area("AG", "Área de Atención General", "Atención general a clientes.", 3));
-	areas->append(Area("AF", "Área de Asesoría Financiera", "Apertura de cuentas, Solicitud de tarjetas de crédito/débito, Préstamos personales o hipotecarios.", 2));
-	areas->append(Area("PY", "Área de PyMEs", "Atención a pequeños y medianos empresarios.", 4));
-	areas->append(Area("BP", "Área de Banca Privada", "Clientes con alto patrimonio. Inversiones y seguros", 2));
-	areas->append(Area("SP", "Área de Asesoría de Seguros y Pensiones", "Atención a finanzas y contabilidad.", 3));
-	areas->append(Area("SD", "Área de Soluciones Digitales", "Banca en Línea, Token digital", 3));
 
-	/*
-	// Inicializar Tipos de usuario
-	tiposUsuario->insert(TipoUsuario("Cliente Banca Privada / Corporate", "	Máxima prioridad: clientes VIP con saldos altos, atención exclusiva sin filas", 0), 0);
-	tiposUsuario->insert(TipoUsuario("Cliente Tarjeta Premium", "Titulares de Infinite/Black con acceso a filas rápidas y beneficios", 1), 1);
-	tiposUsuario->insert(TipoUsuario("Cliente PyMEs", "	Pequeñas empresas con atención en áreas comerciales especiales", 2), 2);
-	tiposUsuario->insert(TipoUsuario("Cliente Adultos Mayores/Discapacidad", "Prioridad humanitaria en algunas sucursales", 3), 3);
-	tiposUsuario->insert(TipoUsuario("Cliente Clientes Personales (Gold/Platinum)", "Cuentas personales con tarjetas premium, atención estándar", 3), 3);
-	tiposUsuario->insert(TipoUsuario("Cuentas Básicas (Ahorro/Corriente)", "Clientes regulares, filas generales o autoservicio", 4), 4);
-	tiposUsuario->insert(TipoUsuario("Cliente BAC Joven (Adolescentes)", "Cuentas para jóvenes sin prioridad en atención", 4), 4);
-	
-
-	// Inicializar Servicios
-	Servicio* servicio1 = new Servicio("Apertura de cuenta", "Apertura de cuentas de ahorro o corriente", 0, );
-
-	*/
 	try {
 		printTitle();
 
 		int option = -1;
 		while (option != 0) {
-			waitAndClear();
+			//waitAndClear();
 
 			printMenu();
 
@@ -508,10 +513,6 @@ int main() {
 	catch (const std::exception& e) {
 		cout << "Error inesperado: " << e.what() << endl;
 	}
-
-	delete areas;
-	delete tiposUsuario;
-	//delete servicios;
 
 	return 0;
 }

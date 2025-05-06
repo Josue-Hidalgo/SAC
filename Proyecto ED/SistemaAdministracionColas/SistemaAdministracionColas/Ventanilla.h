@@ -1,9 +1,23 @@
+/*
+ * Descripción General:
+ *
+ * Nombre del archivo: Ventanilla.h
+ *
+ * Clase que representa una Ventanilla en el sistema de administración de colas.
+ *
+ * Ventanilla que contiene información sobre el nombre, el tiquete actual y la disponibilidad.
+ * Este objeto se utiliza para gestionar la atención de los usuarios en el sistema y el tiempo 
+ * que tarda en atender a cada uno de ellos. Una vez que se llega a la ventanilla se asigna un tiquete.
+ *
+ * Autor: Josue Hidalgo
+ *
+ */
+
 #pragma once
 
 #include <iostream>
 #include <string>
 #include <stdexcept>
-#include "HeapPriorityQueue.h"
 #include "Tiquete.h"
 #include "Ventanilla.h"
 
@@ -15,44 +29,61 @@ using std::runtime_error;
 class Ventanilla {
 private:
    string nombre;
-   string ultimoTiqueteAtendido; // puede que este vacío al principio hasta que se atienda un tiquete
+   string tiqueteActual; // puede que este vacío al principio hasta que se atienda un tiquete
    bool disponible;
 
 public:
-   // Constructor por defecto
-   Ventanilla() : nombre("Ventanilla sin nombre"), ultimoTiqueteAtendido("No se ha atendido a ninguno."), disponible(true) {}
 
-   Ventanilla(string nombre) : nombre(nombre), ultimoTiqueteAtendido("No se ha atendido a ninguno."), disponible(true) {}
+	// Constructor de copia
+	Ventanilla(const Ventanilla& other)
+		: nombre(other.nombre),
+		tiqueteActual(other.tiqueteActual),
+		disponible(other.disponible) {}
 
-   string getNombre() const { return nombre; }
-   
-   string getTiqueteAtendido() const { return ultimoTiqueteAtendido; }
-   
-   void setNombre(string nombre) { this->nombre = nombre; }
-   
-   void setTiqueteAtendido(string tiqueteAtendido) { this->ultimoTiqueteAtendido = tiqueteAtendido; }
-   
-   void asignarTiquete(string codigoTiquete) {
-	   if (disponible) {
-		   ultimoTiqueteAtendido = codigoTiquete;
-		   disponible = false;
-	   }
-	   else
-		   cout << "La ventanilla no está disponible para atender un nuevo tiquete." << endl;
-   }
+	Ventanilla() : nombre("Ventanilla sin nombre"), tiqueteActual("No se ha atendido a ninguno."), disponible(true) {}
 
-   void atenderTiquete() {
-	   if (!disponible) {
-		   cout << "Atendiendo el tiquete: " << ultimoTiqueteAtendido << endl;
-		   ultimoTiqueteAtendido = "No se ha atendido a ninguno.";
-		   disponible = true;
-	   }
-	   else
-		   cout << "No hay tiquete para atender." << endl;
-   }
+	Ventanilla(string nombre) : nombre(nombre), tiqueteActual("No se ha atendido a ninguno."), disponible(true) {}
 
-   void print() const {
-       cout << "Ventanilla: " << nombre << endl;
-       cout << "Último tiquete atendido: " << ultimoTiqueteAtendido << endl;
-   }
+	string getNombre() const { return nombre; }
+   
+	string getTiqueteActual() const { return tiqueteActual; }
+   
+	void setNombre(string nombre) { this->nombre = nombre; }
+   
+	void setTiqueteAtendido(string tiqueteActual) { this->tiqueteActual = tiqueteActual; }
+   
+	void asignarTiquete(string codigoTiquete) {
+		if (disponible) {
+			tiqueteActual = codigoTiquete;
+			disponible = false;
+		}
+		else
+			cout << "La ventanilla no está disponible para atender un nuevo tiquete." << endl;
+	}
+
+	void setTiqueteAtendido() {
+		if (!disponible) {
+			tiqueteActual = "No se ha atendido a ninguno.";
+			disponible = true;
+		}
+		else
+			cout << "La ventanilla ya está disponible." << endl;
+	}
+
+	bool estaDisponible() const { return disponible; }
+
+	void print() const {
+		cout << "Ventanilla: " << nombre << endl;
+		cout << "Último tiquete atendido: " << tiqueteActual << endl;
+	}
+
+	//Asignación
+	Ventanilla& operator=(const Ventanilla& other) {
+		if (this != &other) {
+			nombre = other.nombre;
+			tiqueteActual = other.tiqueteActual;
+			disponible = other.disponible;
+		}
+		return *this;
+	}
 };

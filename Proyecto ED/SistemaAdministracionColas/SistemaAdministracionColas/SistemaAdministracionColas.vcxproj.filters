@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Archivos de encabezado\Modelo">
+      <UniqueIdentifier>{09ad028f-f366-43d8-a702-d966cca61dc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Estructuras de Datos">
+      <UniqueIdentifier>{79e59f11-0ad2-4d13-aeeb-c9c2b145a535}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Micro">
+      <UniqueIdentifier>{b0bb3c68-5480-4592-a78e-0a4a45ce7ff0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Estructuras de Datos\List">
+      <UniqueIdentifier>{79d16cc9-6c12-497c-9716-1d08e8fa0549}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Estructuras de Datos\Queue">
+      <UniqueIdentifier>{32ff8dfd-c3e0-407d-80b7-b4e1dc3a9751}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Control">
+      <UniqueIdentifier>{f718eb71-a178-4365-b63f-ee2421a7657d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SistemaAdministracionColas.cpp">
@@ -20,41 +38,80 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MinHeap.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="PriorityQueue.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="KVPair.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="HeapPriorityQueue.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="TipoUsuario.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="Ventanilla.h">
+      <Filter>Archivos de encabezado\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="Servicio.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Modelo</Filter>
     </ClInclude>
-    <ClInclude Include="Area.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Definiciones.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="TipoUsuario.h">
+      <Filter>Archivos de encabezado\Modelo</Filter>
     </ClInclude>
     <ClInclude Include="Tiquete.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Modelo</Filter>
     </ClInclude>
-    <ClInclude Include="Ventanilla.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="Area.h">
+      <Filter>Archivos de encabezado\Modelo</Filter>
     </ClInclude>
-    <ClInclude Include="List.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="Definiciones.h">
+      <Filter>Archivos de encabezado\Micro</Filter>
     </ClInclude>
     <ClInclude Include="ArrayList.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\Estructuras de Datos\List</Filter>
+    </ClInclude>
+    <ClInclude Include="DLinkedList.h">
+      <Filter>Archivos de encabezado\Estructuras de Datos\List</Filter>
+    </ClInclude>
+    <ClInclude Include="DNode.h">
+      <Filter>Archivos de encabezado\Estructuras de Datos\List</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>Archivos de encabezado\Estructuras de Datos\List</Filter>
+    </ClInclude>
+    <ClInclude Include="HeapPriorityQueue.h">
+      <Filter>Archivos de encabezado\Estructuras de Datos\Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="KVPair.h">
+      <Filter>Archivos de encabezado\Estructuras de Datos\Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedPriorityQueue.h">
+      <Filter>Archivos de encabezado\Estructuras de Datos\Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedQueue.h">
+      <Filter>Archivos de encabezado\Estructuras de Datos\Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="MinHeap.h">
+      <Filter>Archivos de encabezado\Estructuras de Datos\Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
+      <Filter>Archivos de encabezado\Estructuras de Datos\Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="PriorityQueue.h">
+      <Filter>Archivos de encabezado\Estructuras de Datos\Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="Queue.h">
+      <Filter>Archivos de encabezado\Estructuras de Datos\Queue</Filter>
+    </ClInclude>
+    <ClInclude Include="AdmTiposUsuario.h">
+      <Filter>Archivos de encabezado\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="SortedArrayList.h">
+      <Filter>Archivos de encabezado\Estructuras de Datos\List</Filter>
+    </ClInclude>
+    <ClInclude Include="AdmAreas.h">
+      <Filter>Archivos de encabezado\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="Controlador.h">
+      <Filter>Archivos de encabezado\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="AdmTiquetes.h">
+      <Filter>Archivos de encabezado\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="AdmServicios.h">
+      <Filter>Archivos de encabezado\Control</Filter>
+    </ClInclude>
+    <ClInclude Include="AdmEstadisticas.h">
+      <Filter>Archivos de encabezado\Control</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

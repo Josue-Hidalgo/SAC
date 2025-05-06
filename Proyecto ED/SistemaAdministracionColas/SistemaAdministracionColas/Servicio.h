@@ -1,12 +1,13 @@
 /*
- *
+ * Descripción General:
+ * 
  * Nombre del archivo: Servicio.h
  *
  * Clase que representa un servicio en el sistema de administración de colas.
- *
- * Descripción General:
- * Tipo de usuario que contiene información sobre el nombre, la descripción y la prioridad.
- *
+ * Esta clase contiene información sobre el nombre, descripción, prioridad
+ * y área de atención del servicio. También proporciona métodos para
+ * la manipulación de estos atributos, así como para imprimir los detalles.
+ * 
  * Autor: Josue Hidalgo
  *
  */
@@ -67,5 +68,14 @@ public:
         cout << "Descripción: " << descripcion << endl;
         cout << "Área: " << areaAtencion.getNombre() << endl;
     }
+
+	/*/Operadores de comparación
+	bool operator<(const Servicio& other) const {
+		return prioridad < other.prioridad;
+	}
+
+	bool operator>(const Servicio& other) const {
+		return prioridad > other.prioridad;
+	}*/
 };
 

@@ -31,16 +31,34 @@ private:
 	int size;
 	int pos;
 
-	void resize(int newMax) {
-		E* newElements = new E[newMax];
-		for (int i = 0; i < size; i++)
-			newElements[i] = elements[i];
-		delete[] elements;
-		elements = newElements;
-		max = newMax;
-	}
+    void resize(int newMax) {
+        if (newMax <= max)
+            throw runtime_error("New size must be greater than the current size.");
+
+        E* newElements = new E[newMax];
+        for (int i = 0; i < size; i++)
+            newElements[i] = elements[i];
+        delete[] elements;
+        elements = newElements;
+        max = newMax;
+    }
 
 public:
+	
+	// Constructor de copia
+	ArrayList(const ArrayList<E>& other) {
+		
+		max = other.max;
+		size = other.size;
+		pos = other.pos;
+		elements = new E[max];
+		
+		for (int i = 0; i < size; i++) {
+			elements[i] = other.elements[i];
+		}
+	
+	}
+
 	ArrayList(int max = DEFAULT_MAX) {
 		if (max < 1)
 			throw runtime_error("Invalid max size.");
@@ -141,6 +159,10 @@ public:
 	int getSize() {
 		return size;
 	}
+
+	bool isEmpty() {
+		return size == 0;
+	}
 	
 	void print() {
 
@@ -158,6 +180,23 @@ public:
 
 		cout << "]" << endl;
 
+	}
+
+	// Operador de Asignación
+	void operator =(const ArrayList<E>& other) {
+		
+		if (this == &other)
+			return;
+
+		delete[] elements;
+
+		max = other.max;
+		size = other.size;
+		pos = other.pos;
+		elements = new E[max];
+		
+		for (int i = 0; i < size && i < max; i++) 
+			elements[i] = other.elements[i];
 	}
 };
 

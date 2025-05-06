@@ -130,15 +130,28 @@
     <ClCompile Include="SistemaAdministracionColas.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AdmAreas.h" />
+    <ClInclude Include="AdmEstadisticas.h" />
+    <ClInclude Include="AdmServicios.h" />
+    <ClInclude Include="AdmTiposUsuario.h" />
+    <ClInclude Include="AdmTiquetes.h" />
     <ClInclude Include="Area.h" />
     <ClInclude Include="ArrayList.h" />
+    <ClInclude Include="Controlador.h" />
     <ClInclude Include="Definiciones.h" />
+    <ClInclude Include="DLinkedList.h" />
+    <ClInclude Include="DNode.h" />
     <ClInclude Include="HeapPriorityQueue.h" />
     <ClInclude Include="KVPair.h" />
+    <ClInclude Include="LinkedPriorityQueue.h" />
+    <ClInclude Include="LinkedQueue.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="MinHeap.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="PriorityQueue.h" />
+    <ClInclude Include="Queue.h" />
     <ClInclude Include="Servicio.h" />
+    <ClInclude Include="SortedArrayList.h" />
     <ClInclude Include="TipoUsuario.h" />
     <ClInclude Include="Tiquete.h" />
     <ClInclude Include="Ventanilla.h" />

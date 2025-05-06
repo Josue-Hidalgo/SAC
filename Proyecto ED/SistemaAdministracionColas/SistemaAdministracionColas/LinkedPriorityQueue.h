@@ -21,6 +21,7 @@
 #include <iostream>
 #include "LinkedQueue.h"
 #include "PriorityQueue.h"
+#include "Definiciones.h"
 
 using std::cout;
 using std::cin;
@@ -36,7 +37,28 @@ private:
 
 public:
 
-	LinkedPriorityQueue(int priorities) {
+	LinkedPriorityQueue<E>& operator=(const LinkedPriorityQueue<E>& other) {
+		if (this == &other) // Evitar autoasignación
+			return *this;
+
+		// Liberar la memoria actual
+		clear();
+		delete[] queues;
+
+		// Copiar los valores de `other`
+		priorities = other.priorities;
+		size = other.size;
+
+		// Asignar nueva memoria y copiar los datos
+		queues = new LinkedQueue<E>[priorities];
+		for (int i = 0; i < priorities; i++) {
+			queues[i] = other.queues[i];
+		}
+
+		return *this;
+	}
+
+	LinkedPriorityQueue(int priorities = DEFAULT_PRIORITIES) {
 		if (priorities <= 0)
 			throw runtime_error("Number of priorities must be positive.");
 		queues = new LinkedQueue<E>[priorities];

@@ -1,10 +1,23 @@
+/*
+ * Descripción General:
+ *
+ * Nombre del archivo: Tiquete.h
+ *
+ * Clase que representa un Tiquete en el sistema de administración de colas.
+ *
+ * Tiquete que contiene información sobre el código, la hora de emisión y la prioridad final.
+ * Este tiquete se utiliza para gestionar la atención de los usuarios en las ventanillas.
+ *
+ * Autor: Josue Hidalgo
+ *
+ */
+
 #pragma once
 
 #include <iostream>
 #include <string>
 #include <stdexcept>
 #include <ctime>
-#include "HeapPriorityQueue.h"
 #include "Tiquete.h"
 #include "Ventanilla.h"
 
@@ -18,26 +31,27 @@ using std::runtime_error;
 class Tiquete {
 
 private:
-	int codigo;
+	string codigo;
 	time_t hora;
 	int prioridadFinal;
 
 public:
-	Tiquete(int codigo, int prioridadFinal)
-		: codigo(codigo), prioridadFinal(prioridadFinal) {
-		// inicializa la hora al momento de crear el tiquete con la hora actual
-		hora = time(nullptr);
 
-	}
 
-	
-	int getCodigo() const { return codigo; }
+
+	// Constructor por defecto
+	Tiquete() : codigo(""), hora(0), prioridadFinal(0) {}
+
+	Tiquete(string codigo, int prioridadFinal)
+		: codigo(codigo), prioridadFinal(prioridadFinal) { hora = time(nullptr); }
+
+	string getCodigo() const { return codigo; }
 	
 	time_t getHora() const { return hora; }
 	
 	int getPrioridadFinal() const { return prioridadFinal; }
 	
-	void setCodigo(int codigo) { this->codigo = codigo; }
+	void setCodigo(string codigo) { this->codigo = codigo; }
 	
 	void setHora(time_t hora) { this->hora = hora; }
 	
@@ -46,14 +60,25 @@ public:
 	void print() const {
 		cout << "Tiquete: " << codigo << endl;
 
-		// Convertir el tiempo a una estructura legible
-		struct tm* timeInfo = localtime(&hora);
-		char buffer[80];
-		strftime(buffer, sizeof(buffer), "%d/%m/%Y %H:%M:%S", timeInfo);
+		struct tm timeInfo;
+		localtime_s(&timeInfo, &hora);
 
-		cout << "Hora: " << buffer << endl; // Imprime la hora formateada
+		char buffer[80];
+		strftime(buffer, sizeof(buffer), "%d/%m/%Y %H:%M:%S", &timeInfo);
+
+		cout << "Hora: " << buffer << endl;
 		cout << "Prioridad Final: " << prioridadFinal << endl;
 	}
 
+	friend ostream& operator<<(ostream& os, const Tiquete& tiquete) {
+		os << "Tiquete: " << tiquete.codigo << endl;
+		struct tm timeInfo;
+		localtime_s(&timeInfo, &tiquete.hora);
+		char buffer[80];
+		strftime(buffer, sizeof(buffer), "%d/%m/%Y %H:%M:%S", &timeInfo);
+		os << "Hora: " << buffer << endl;
+		os << "Prioridad Final: " << tiquete.prioridadFinal << endl;
+		return os;
+	}
 };
 

@@ -1,11 +1,12 @@
 /*
+ * Descripción General:
  * 
  * Nombre del archivo: TipoUsuario.h
  * 
  * Clase que representa un tipo de usuario en el sistema de administración de colas.
  * 
- * Descripción General:
  * Tipo de usuario que contiene información sobre el nombre, la descripción y la prioridad.
+ * Además, proporciona métodos para la manipulación de estos atributos, así como para imprimir los detalles.
  * 
  * Autor: Josue Hidalgo
  * 
@@ -20,6 +21,7 @@
 using std::cout;
 using std::endl;
 using std::string;
+using std::ostream;
 using std::runtime_error;
 
 class TipoUsuario {
@@ -61,27 +63,17 @@ public:
 	}
 
 	/*Operadores*/
-	bool operator<(const TipoUsuario& otro) const {
-		return this->prioridad < otro.prioridad;
-	}
-
 	bool operator>(const TipoUsuario& otro) const {
 		return this->prioridad > otro.prioridad;
 	}
 
-	bool operator==(const TipoUsuario& otro) const {
-		return this->nombre == otro.nombre && this->descripcion == otro.descripcion && this->prioridad == otro.prioridad;
-	}
-
-	bool operator!=(const TipoUsuario& otro) const {
-		return !(*this == otro);
-	}
-
-	/*Sobrecarga del operador de salida para imprimir el objeto */
+	
 	friend ostream& operator<<(ostream& os, const TipoUsuario& tipoUsuario) {
-		os << "Tipo de Usuario: " << tipoUsuario.nombre << endl;
-		os << "Prioridad: " << tipoUsuario.prioridad << endl;
+		os << "Tipo de Usuario: " << tipoUsuario.nombre << "\n"
+			//<< "Descripción: " << tipoUsuario.descripcion << "\n"
+			<< "Prioridad: " << tipoUsuario.prioridad << "\n";
 		return os;
 	}
+
 };
 
