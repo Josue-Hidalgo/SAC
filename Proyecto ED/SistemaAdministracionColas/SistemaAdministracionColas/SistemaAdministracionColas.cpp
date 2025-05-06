@@ -25,7 +25,7 @@
 // Clases 
 #include "Area.h"
 #include "TipoUsuario.h"
-#include "Servicio.h"
+//#include "Servicio.h"
 #include "Tiquete.h"
 #include "List.h"
 #include "ArrayList.h"
@@ -45,7 +45,7 @@ using std::invalid_argument;
 
 List<Area>* areas = new ArrayList<Area>();
 PriorityQueue<TipoUsuario>* tiposUsuario = new HeapPriorityQueue<TipoUsuario>();
-List<Servicio>* servicios = new ArrayList<Servicio>();
+//List<Servicio>* servicios = new ArrayList<Servicio>();
 
 // INPUT FUNCTIONS
 int inputInt(const string& message) {
@@ -511,7 +511,7 @@ int main() {
 
 	delete areas;
 	delete tiposUsuario;
-	delete servicios;
+	//delete servicios;
 
 	return 0;
 }

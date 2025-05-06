@@ -23,9 +23,13 @@ private:
 	int prioridadFinal;
 
 public:
-	Tiquete(int codigo, time_t hora, int prioridadFinal)
-		: codigo(codigo), hora(hora), prioridadFinal(prioridadFinal) {
+	Tiquete(int codigo, int prioridadFinal)
+		: codigo(codigo), prioridadFinal(prioridadFinal) {
+		// inicializa la hora al momento de crear el tiquete con la hora actual
+		hora = time(nullptr);
+
 	}
+
 	
 	int getCodigo() const { return codigo; }
 	
@@ -41,8 +45,15 @@ public:
 	
 	void print() const {
 		cout << "Tiquete: " << codigo << endl;
-		//cout << "Hora: " << ctime(&hora); // se imprime hh:mm:ss
+
+		// Convertir el tiempo a una estructura legible
+		struct tm* timeInfo = localtime(&hora);
+		char buffer[80];
+		strftime(buffer, sizeof(buffer), "%d/%m/%Y %H:%M:%S", timeInfo);
+
+		cout << "Hora: " << buffer << endl; // Imprime la hora formateada
 		cout << "Prioridad Final: " << prioridadFinal << endl;
 	}
+
 };
 

@@ -1,3 +1,17 @@
+
+/*
+
+	Descripción General:
+
+	Nombre del archivo: ArrayList.h
+
+	Descripción: Implementación de la Estructura de Datos ArrayList.
+	Esta clase es una implementación de una lista utilizando un arreglo dinámico.
+
+	Autor: Mauricio Avilés Cisneros
+
+*/
+
 #pragma once
 
 #include <iostream>
@@ -127,7 +141,7 @@ public:
 	int getSize() {
 		return size;
 	}
-
+	
 	void print() {
 
 		cout << "[ ";
@@ -135,8 +149,8 @@ public:
 		for (int i = 0; i < size; i++) {
 			if (i == pos)
 				cout << "*";
-
-			cout << elements[i] << " ";
+			elements[i].print();
+			cout << " ";
 		}
 
 		if (pos == size)
