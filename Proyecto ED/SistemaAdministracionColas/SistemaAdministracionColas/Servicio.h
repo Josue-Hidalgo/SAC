@@ -22,6 +22,7 @@
 using std::cout;
 using std::endl;
 using std::string;
+using std::ostream;
 using std::runtime_error;
 
 class Servicio {
@@ -68,6 +69,16 @@ public:
         cout << "Descripción: " << descripcion << endl;
         cout << "Área: " << areaAtencion.getNombre() << endl;
     }
+
+	// Método para imprimir OPERADOR <<
+
+	friend ostream& operator<<(ostream& os, const Servicio& servicio) {
+		os << "Servicio: " << servicio.nombre << "\n"
+			<< "Descripción: " << servicio.descripcion << "\n"
+			<< "Prioridad: " << servicio.prioridad << "\n"
+			<< "Área de Atención: " << servicio.areaAtencion.getNombre() << "\n";
+		return os;
+	}
 
 	/*/Operadores de comparación
 	bool operator<(const Servicio& other) const {

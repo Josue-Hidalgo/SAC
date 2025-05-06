@@ -26,6 +26,7 @@
 #include "Controlador.h"
 #include "AdmTiposUsuario.h"
 #include "AdmAreas.h"
+#include "AdmServicio.h"
 
 // Importar con nombres conocidos
 using std::cout;
@@ -38,9 +39,10 @@ using std::invalid_argument;
 /*VARIABLES GLOBALES*/
 Controlador controlador;
 AdmTiposUsuario adminTiposUsuario;
+AdmServicio adminServicio;
 AdmAreas adminAreas;
 
-// INPUT FUNCTIONS
+/*INPUT FUNCTIONS*/
 static int inputInt(const string& message) {
 	string input;
 	cout << message;
@@ -57,8 +59,7 @@ static string inputString(const string& message) {
 	return input;
 }
 
-// PRINTS 
-
+/* PRINTS */
 static void printTitle() {
 	cout << endl;
 	cout << "Bienvenido a ... " << endl;
@@ -221,6 +222,49 @@ static void modifyArea() {
 	cout << "Área modificada exitosamente." << endl;
 }
 
+static Area lookForArea(int pos) {
+	return adminAreas.buscar(pos);// Retornar un objeto de tipo Area
+}
+
+/*SERVICES*/
+
+static void addService() {
+	string nombre = inputString("Ingrese el nombre del servicio: ");
+	string descripcion = inputString("Ingrese la descripción del servicio: ");
+	int prioridad = inputInt("Ingrese la prioridad del servicio: ");
+	
+	listAreas();
+	int area = inputInt("Ingrese el número de área: ") - 1;
+
+	if (prioridad < 0)
+		throw runtime_error("La prioridad no puede ser negativa.");
+
+	Area areaAtencion = lookForArea(area);
+	adminServicio.agregar(nombre, descripcion, prioridad, areaAtencion);
+	cout << "Servicio agregado exitosamente." << endl;
+}
+
+static void deleteService() {
+	int posicion = inputInt("Ingrese el número de servicio que desea eliminar: ") - 1;
+	string nombre = adminServicio.eliminar(posicion);
+	cout << "Servicio eliminado: " << nombre << endl;
+}
+
+static void reorderService() {
+	int posicion = inputInt("Ingrese el número de servicio que desea reordenar: ") - 1;
+	int nuevaPrioridad = inputInt("Ingrese la nueva prioridad del servicio: ") - 1;
+	if (nuevaPrioridad < 0)
+		throw runtime_error("La prioridad no puede ser negativa.");
+	adminServicio.modificar(posicion, nuevaPrioridad);
+	cout << "Servicio modificado exitosamente." << endl;
+}
+
+static bool listServices() {
+	// Aquí se mostrarían los servicios disponibles
+	cout << "Servicios disponibles:" << endl;
+	return adminServicio.listar();
+}
+
 /*AUXILIARES*/
 
 // AUX_GENERAL
@@ -345,18 +389,26 @@ static void admServices() {
 	while (option != 0) {
 		//waitAndClear();
 
+		bool isEmpty = false;
 		printAdmServicesMenu();
 
 		option = inputInt("Seleccione una opción: ");
 		switch (option) {
 		case 1:
 			// Implementación de la función para agregar servicio
+			addService();
 			break;
 		case 2:
 			// Implementación de la función para eliminar servicio
+			isEmpty = listServices();
+			if (!isEmpty)
+				deleteService();
 			break;
 		case 3:
 			// Implementación de la función para reordenar lista de servicios
+			isEmpty = listServices();
+			if (!isEmpty)
+				reorderService();
 			break;
 		case 0:
 			cout << "Regresando al menú principal..." << endl;
@@ -461,6 +513,9 @@ static void administration() {
 static void statistics() {
 	cout << "Estadísticas del sistema:" << endl;
 }
+
+
+/*MAIN*/
 
 int main() {
 

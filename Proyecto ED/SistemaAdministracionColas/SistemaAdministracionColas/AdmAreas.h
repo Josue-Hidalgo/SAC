@@ -62,7 +62,7 @@ public:
 		return false;
 	}
 
-	bool listar2() {
+	bool listarConVentanillas() {
 
 		if (listaAreas->isEmpty()) {
 			cout << "No hay áreas registradas." << endl;
@@ -121,5 +121,13 @@ public:
 
 		cout << "Número de ventanillas actualizado exitosamente." << endl;
 	}
+
+	Area buscar(int posicion) {
+		if (posicion < 0 || posicion >= listaAreas->getSize())
+			throw runtime_error("Posición a buscar inválida.");
+		listaAreas->goToPos(posicion);
+		return listaAreas->getElement();
+	}
+
 };
 

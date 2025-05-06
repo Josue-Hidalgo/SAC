@@ -132,7 +132,7 @@
   <ItemGroup>
     <ClInclude Include="AdmAreas.h" />
     <ClInclude Include="AdmEstadisticas.h" />
-    <ClInclude Include="AdmServicios.h" />
+    <ClInclude Include="AdmServicio.h" />
     <ClInclude Include="AdmTiposUsuario.h" />
     <ClInclude Include="AdmTiquetes.h" />
     <ClInclude Include="Area.h" />

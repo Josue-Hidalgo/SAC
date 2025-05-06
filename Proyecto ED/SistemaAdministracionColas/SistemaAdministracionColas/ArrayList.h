@@ -53,9 +53,8 @@ public:
 		pos = other.pos;
 		elements = new E[max];
 		
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size && i < max; i++)
 			elements[i] = other.elements[i];
-		}
 	
 	}
 
