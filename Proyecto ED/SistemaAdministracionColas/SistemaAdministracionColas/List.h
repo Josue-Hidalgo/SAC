@@ -1,3 +1,20 @@
+
+
+/*
+
+	Descripción General:
+
+	Nombre del archivo: List.h
+
+	Descripción: Esta es una interfaz para la Estructura de Datos List.
+	Esta clase es una implementación de una lista. 
+	Contiene métodos para insertar, eliminar, obtener elementos y
+	realizar operaciones de navegación en la lista.
+
+	Autor: Mauricio Avilés Cisneros
+
+*/
+
 #pragma once
 
 template <typename E>

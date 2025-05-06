@@ -25,31 +25,47 @@ using std::runtime_error;
 
 class Servicio {
 private:
-	string nombre;
-	string descripcion;
-	int prioridad;
-	Area area;
+    string nombre;
+    string descripcion;
+    int prioridad;
+    Area areaAtencion;
 
 public:
-	Servicio(string nombre, string descripcion, Area area)
-		: nombre(nombre), descripcion(descripcion), area(area) {}
 
-	string getNombre() const { return nombre; }
+    Servicio() : nombre(""), descripcion(""), prioridad(0), areaAtencion() {}
 
-	string getDescripcion() const { return descripcion; }
+    Servicio(string nombre, string descripcion, int prioridad, Area areaAtencion) 
+        :nombre(nombre), descripcion(descripcion), prioridad(prioridad), areaAtencion(areaAtencion) {}
 
-	Area getArea() const { return area; }
+    /*
+    // Constructor de copia
+    Servicio(const Servicio& other)
+        : nombre(other.nombre), descripcion(other.descripcion), prioridad(other.prioridad), areaAtencion(other.areaAtencion) {}
 
-	void setNombre(string nombre) { this->nombre = nombre; }
+    // Operador de asignación
+    Servicio& operator=(const Servicio& other) {
+        if (this != &other) {
+            nombre = other.nombre;
+            descripcion = other.descripcion;
+            prioridad = other.prioridad;
+            areaAtencion = other.areaAtencion;
+        }
+        return *this;
+    }
+    */
 
-	void setDescripcion(string descripcion) { this->descripcion = descripcion; }
+    string getNombre() const { return nombre; }
+    string getDescripcion() const { return descripcion; }
+    Area getAreaAtencion() const { return areaAtencion; }
 
-	void setArea(Area area) { this->area = area; }
+    void setNombre(string nombre) { this->nombre = nombre; }
+    void setDescripcion(string descripcion) { this->descripcion = descripcion; }
+    void setAreaAtencion(Area areaAtencion) { this->areaAtencion = areaAtencion; }
 
-	void print() const {
-		cout << "Servicio: " << nombre << endl;
-		cout << "Descripción: " << descripcion << endl;
-		cout << "Área: " << area.getNombre() << endl;
-	}
+    void print() const {
+        cout << "Servicio: " << nombre << endl;
+        cout << "Descripción: " << descripcion << endl;
+        cout << "Área: " << areaAtencion.getNombre() << endl;
+    }
 };
 

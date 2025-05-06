@@ -18,6 +18,7 @@
 
 #include <stdexcept>
 #include <iostream>
+#include "Definiciones.h"
 
 using std::runtime_error;
 using std::cout;

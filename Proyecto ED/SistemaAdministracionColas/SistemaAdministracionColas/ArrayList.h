@@ -1,10 +1,23 @@
-#pragma once
 
-#define DEFAULT_MAX 1024
+/*
+
+	Descripción General:
+
+	Nombre del archivo: ArrayList.h
+
+	Descripción: Implementación de la Estructura de Datos ArrayList.
+	Esta clase es una implementación de una lista utilizando un arreglo dinámico.
+
+	Autor: Mauricio Avilés Cisneros
+
+*/
+
+#pragma once
 
 #include <iostream>
 #include <stdexcept>
 #include "List.h"
+#include "Definiciones.h"
 
 using std::cout;
 using std::endl;
@@ -128,7 +141,7 @@ public:
 	int getSize() {
 		return size;
 	}
-
+	
 	void print() {
 
 		cout << "[ ";
@@ -136,8 +149,8 @@ public:
 		for (int i = 0; i < size; i++) {
 			if (i == pos)
 				cout << "*";
-
-			cout << elements[i] << " ";
+			elements[i].print();
+			cout << " ";
 		}
 
 		if (pos == size)
@@ -146,6 +159,5 @@ public:
 		cout << "]" << endl;
 
 	}
-
 };
 

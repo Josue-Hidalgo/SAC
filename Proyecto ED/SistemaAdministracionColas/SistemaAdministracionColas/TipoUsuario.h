@@ -30,6 +30,8 @@ private:
 
 public:
 
+	TipoUsuario() : nombre(""), descripcion(""), prioridad(0) {}
+
 	// Esta lista de inicialización de miembros es equivalente a:
 	// this->nombre = nombre; y etc.
 	TipoUsuario(string nombre, string descripcion, int prioridad) 
@@ -46,16 +48,40 @@ public:
 	
 	void setDescripcion(string descripcion) { this->descripcion = descripcion; }
 	
-	void setPrioridad(int prioridad) { this->prioridad = prioridad; }
-
-	bool operator<(const TipoUsuario& otro) const {
-		return this->prioridad < otro.prioridad;
+	void setPrioridad(int prioridad) { 
+		if (prioridad < 0) 
+			throw runtime_error("La prioridad no puede ser negativa.");
+		this->prioridad = prioridad; 
 	}
 
 	void print() const {
 		cout << "Tipo de Usuario: " << nombre << endl;
 		cout << "Descripción: " << descripcion << endl;
 		cout << "Prioridad: " << prioridad << endl;
+	}
+
+	/*Operadores*/
+	bool operator<(const TipoUsuario& otro) const {
+		return this->prioridad < otro.prioridad;
+	}
+
+	bool operator>(const TipoUsuario& otro) const {
+		return this->prioridad > otro.prioridad;
+	}
+
+	bool operator==(const TipoUsuario& otro) const {
+		return this->nombre == otro.nombre && this->descripcion == otro.descripcion && this->prioridad == otro.prioridad;
+	}
+
+	bool operator!=(const TipoUsuario& otro) const {
+		return !(*this == otro);
+	}
+
+	/*Sobrecarga del operador de salida para imprimir el objeto */
+	friend ostream& operator<<(ostream& os, const TipoUsuario& tipoUsuario) {
+		os << "Tipo de Usuario: " << tipoUsuario.nombre << endl;
+		os << "Prioridad: " << tipoUsuario.prioridad << endl;
+		return os;
 	}
 };
 
