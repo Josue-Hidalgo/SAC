@@ -38,6 +38,7 @@ using std::invalid_argument;
 
 /*VARIABLES GLOBALES*/
 Controlador controlador;
+
 AdmTiposUsuario adminTiposUsuario;
 AdmServicio adminServicio;
 AdmAreas adminAreas;
@@ -514,9 +515,7 @@ static void statistics() {
 	cout << "Estadísticas del sistema:" << endl;
 }
 
-
 /*MAIN*/
-
 int main() {
 
 	try {

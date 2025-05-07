@@ -14,5 +14,5 @@
 
 #pragma once
 class AdmTiquetes {
-};
 
+};

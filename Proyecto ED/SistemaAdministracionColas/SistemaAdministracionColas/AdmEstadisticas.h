@@ -7,6 +7,7 @@
 	Descripcion:
 
 	Autores:
+	- Sebastian Masís 
 
 */
 
