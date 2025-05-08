@@ -52,21 +52,54 @@ public:
 		adminTiposUsuario->agregar(nombre, descripcion, prioridad); //Estos fue lo que se usó en el main
 	}
 
-	void eliminarTipoUsuario();
-	void listarTiposUsuario();
+	void listarTiposUsuario() {
+		adminTiposUsuario->listar();
+		return;
+	}
+
+	void eliminarTipoUsuario(int posicion) {
+		adminTiposUsuario->eliminar(posicion);
+	}
+
 	void buscarTipoUsuario();
 	
-	void agregarArea();
-	void eliminarArea();
-	void listarAreas();
-	void buscarArea();
-	void modificarAreaVentanillas();
 	
-	void agregarServicio();
-	void eliminarServicio();
+	void agregarArea(string codigo, string nombre, string descripcion, int numeroVetanillas) {
+		adminAreas->agregar(codigo, nombre, descripcion, numeroVetanillas);
+	}
+		
+	void listarAreas() {
+		adminAreas->listar();
+		return;
+	}
+
+	void eliminarArea(int posicion) {
+		adminAreas->eliminar(posicion);
+	}
+
+	void modificarAreaVentanillas(int posicion, int nuevoNumeroVentanillas) {
+		adminAreas->modificar(posicion, nuevoNumeroVentanillas);
+	}
+	
+	void buscarArea(int pos) {
+		adminAreas->buscar(pos);
+		return;
+	}
+
+	void agregarServicio(string nombre, string descripcion, int prioridad, Area areaAtencion) {
+		adminServicio->agregar(nombre, descripcion, prioridad, areaAtencion);
+	}
+    void eliminarServicio(int posicion) {
+       adminServicio->eliminar(posicion);
+    }
+
+	void reordenarServicios(int posicion, int nuevaPrioridad) {
+		adminServicio->modificar(posicion, nuevaPrioridad);
+	}
+
 	void listarServicios();
 	void buscarServicio();
-	void reordenarServicios();
+
 
 	void agregarTiquete();
 	void eliminarTiquete();

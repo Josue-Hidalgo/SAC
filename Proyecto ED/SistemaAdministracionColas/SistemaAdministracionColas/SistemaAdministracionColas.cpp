@@ -177,18 +177,20 @@ static void addUserType() {
 }
 
 static bool listUserTypes() {
-	return adminTiposUsuario.listar();
+	controlador.listarTiposUsuario(); //Revisar, return se puso en el controlador
 }
 
 static void deleteUserType() {
 	try {
 		int posicion = inputInt("Ingrese el numero de Tipo de Usuario que quiere eliminar: ") - 1;
-		string nombre = adminTiposUsuario.eliminar(posicion);
+		string nombre = adminTiposUsuario.eliminar(posicion); //Revisar, si se cambia acá genera error
 		cout << "Tipo de Usuario eliminado: " << nombre << endl;
+		
+		//controlador.eliminarTipoUsuario(posicion);
+	
 	} catch (runtime_error) {
 		cout << "No se pudo eliminar el tipo de usuario." << endl;
 	}
-
 }
 
 /*AREAS*/
@@ -201,18 +203,21 @@ static void addArea() {
 	if (numeroVentanillas <= 0)
 		throw runtime_error("La cantidad de ventanillas debe ser mayor a cero.");
 
-	adminAreas.agregar(codigo, nombre, descripcion, numeroVentanillas);
+	controlador.agregarArea(codigo, nombre, descripcion, numeroVentanillas);
 
 	cout << "Área agregada exitosamente." << endl;
 }
 
 static bool listAreas() {
-	return adminAreas.listar();
+	controlador.listarAreas(); //Revisar, return se puso en el controlador
 }
 
 static void deleteArea() {
 	int posicion = inputInt("Ingrese el número de área que desea eliminar: ") - 1;
-	string nombre = adminAreas.eliminar(posicion);
+	string nombre = adminAreas.eliminar(posicion); //Revisar, si se cambia acá genera error
+
+	//controlador.eliminarArea(posicion);
+
 	cout << "Área eliminada: " << nombre << endl;
 }
 
@@ -220,13 +225,13 @@ static void modifyArea() {
 	int posicion = inputInt("Ingrese el número de área que desea modificar: ") - 1;
 	int nuevoNumeroVentanillas = inputInt("Ingrese la nueva cantidad de ventanillas: ");
 
-	adminAreas.modificar(posicion, nuevoNumeroVentanillas);
+	controlador.modificarAreaVentanillas(posicion, nuevoNumeroVentanillas);
 
 	cout << "Área modificada exitosamente." << endl;
 }
 
 static Area lookForArea(int pos) {
-	return adminAreas.buscar(pos);// Retornar un objeto de tipo Area
+	controlador.buscarArea(pos);// Retornar un objeto de tipo Area //Revisar, return se puso en el controlador
 }
 
 /*SERVICES*/
@@ -243,13 +248,16 @@ static void addService() {
 		throw runtime_error("La prioridad no puede ser negativa.");
 
 	Area areaAtencion = lookForArea(area);
-	adminServicio.agregar(nombre, descripcion, prioridad, areaAtencion);
+	controlador.agregarServicio(nombre, descripcion, prioridad, areaAtencion);
 	cout << "Servicio agregado exitosamente." << endl;
 }
 
 static void deleteService() {
 	int posicion = inputInt("Ingrese el número de servicio que desea eliminar: ") - 1;
-	string nombre = adminServicio.eliminar(posicion);
+	string nombre = adminServicio.eliminar(posicion); //Revisar, si se cambia acá genera error
+	
+	//controlador.eliminarServicio(posicion);
+
 	cout << "Servicio eliminado: " << nombre << endl;
 }
 
@@ -258,14 +266,14 @@ static void reorderService() {
 	int nuevaPrioridad = inputInt("Ingrese la nueva prioridad del servicio: ") - 1;
 	if (nuevaPrioridad < 0)
 		throw runtime_error("La prioridad no puede ser negativa.");
-	adminServicio.modificar(posicion, nuevaPrioridad);
+	controlador.reordenarServicios(posicion, nuevaPrioridad);
 	cout << "Servicio modificado exitosamente." << endl;
 }
 
 static bool listServices() {
 	// Aquí se mostrarían los servicios disponibles
 	cout << "Servicios disponibles:" << endl;
-	return adminServicio.listar();
+	controlador.listarServicios(); //Revisar, return se puso en el controlador
 }
 
 /*AUXILIARES*/
