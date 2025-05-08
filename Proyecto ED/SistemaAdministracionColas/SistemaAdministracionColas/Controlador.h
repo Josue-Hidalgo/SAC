@@ -97,7 +97,12 @@ public:
 		adminServicio->modificar(posicion, nuevaPrioridad);
 	}
 
-	void listarServicios();
+	void listarServicios() {
+		adminServicio->listar();
+		return;
+	}
+	
+	
 	void buscarServicio();
 
 
