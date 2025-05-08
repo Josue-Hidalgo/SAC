@@ -37,6 +37,7 @@ using std::string;
 using std::invalid_argument;
 
 /*VARIABLES GLOBALES*/
+int indiceGlobal = 0; // Variable global para el índice de los tiquetes
 Controlador controlador;
 
 AdmTiposUsuario adminTiposUsuario;
@@ -169,7 +170,8 @@ static void addUserType() {
 	if (prioridad < 0)
 		throw runtime_error("La prioridad no puede ser negativa.");
 
-	adminTiposUsuario.agregar(nombre, descripcion, prioridad);
+	controlador.agregarTipoUsuario(nombre, descripcion, prioridad);
+	//adminTiposUsuario.agregar(nombre, descripcion, prioridad); // Esto fue lo que se cambia
 
 	cout << "Tipo de usuario agregado exitosamente." << endl;
 }
