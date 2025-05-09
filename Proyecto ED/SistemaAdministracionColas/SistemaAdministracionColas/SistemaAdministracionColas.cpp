@@ -338,6 +338,7 @@ static void searchInQueue(const int& area, const int& windowNum) {
 		espera.
 
 	*/
+<<<<<<< Updated upstream
 	Area areaSeleccionada = controlador.buscarArea(area - 1); // Restar 1 porque los índices del usuario son 1-based
 	LinkedPriorityQueue<Tiquete>* colaTiquetes = areaSeleccionada.getColaTiquetes();
 
@@ -376,6 +377,11 @@ static void searchInQueue(const int& area, const int& windowNum) {
 	// Mostrar información del tiquete atendido
 	cout << "Tiquete atendido con éxito en la ventanilla " << ventanillaSeleccionada.getNombre() << ":" << endl;
 	siguienteTiquete.print();
+=======
+
+	controlador.atenderSiguiente(area, windowNum);
+	
+>>>>>>> Stashed changes
 }
 
 // AUX_OPCION 4
