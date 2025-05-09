@@ -152,19 +152,8 @@ public:
 		// Asignar el tiquete a la ventanilla
 		ventanillaSeleccionada.setTiqueteAtendido(siguienteTiquete.getCodigo());
 
-		// Calcular el tiempo de espera
-		time_t tiempoActual = time(nullptr);
-		//int tiempoEspera = static_cast<int>(tiempoActual - siguienteTiquete.getHora());
-
-		// Actualizar estadísticas en AdmEstadisticas
-		AdmEstadisticas estadisticas;
-		//estadisticas.acumularTiqueteArea(areaSeleccionada, tiempoEspera);
-
-		// Actualizar estadísticas de la ventanilla
-		//ventanillaSeleccionada.incrementarCantidadTiquetesAtendidos(); // Método hipotético para incrementar el contador de tiquetes atendidos
-
 		// Mostrar información del tiquete atendido
-		cout << "Tiquete atendido con éxito en la ventanilla " << ventanillaSeleccionada.getNombre() << ":" << endl;
+		cout << "Tiquete atendido con éxito en la ventanilla: " << ventanillaSeleccionada.getNombre() << ":" << endl;
 		siguienteTiquete.print();
 	}
 };

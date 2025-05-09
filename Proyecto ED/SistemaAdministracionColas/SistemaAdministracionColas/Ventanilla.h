@@ -28,9 +28,9 @@ using std::runtime_error;
 
 class Ventanilla {
 private:
-   string nombre;
-   string tiqueteActual;
-   bool disponible;
+	string nombre;
+	string tiqueteActual;
+	bool disponible;
 
 public:
 
@@ -38,22 +38,23 @@ public:
 	Ventanilla(const Ventanilla& other)
 		: nombre(other.nombre),
 		tiqueteActual(other.tiqueteActual),
-		disponible(other.disponible) {}
+		disponible(other.disponible) {
+	}
 
 	Ventanilla() : nombre("Ventanilla sin nombre"), tiqueteActual("No se ha atendido a ninguno."), disponible(true) {}
 
 	Ventanilla(string nombre) : nombre(nombre), tiqueteActual("No se ha atendido a ninguno."), disponible(true) {}
 
 	string getNombre() const { return nombre; }
-   
+
 	string getTiqueteActual() const { return tiqueteActual; }
-   
+
 	void setNombre(string nombre) { this->nombre = nombre; }
-   
-	void setTiqueteAtendido(string tiqueteActual) { 
+
+	void setTiqueteAtendido(string tiqueteActual) {
 		if (!estaDisponible())
 			throw runtime_error("Ventanilla no disponible.");
-		this->tiqueteActual = tiqueteActual; 
+		this->tiqueteActual = tiqueteActual;
 		disponible = false;
 	}
 
@@ -70,12 +71,17 @@ public:
 	}
 
 	//Asignación
-	Ventanilla& operator=(const Ventanilla& other) {
+	Ventanilla& operator=(const Ventanilla & other){
 		if (this != &other) {
 			nombre = other.nombre;
 			tiqueteActual = other.tiqueteActual;
 			disponible = other.disponible;
 		}
 		return *this;
+	}
+	bool operator==(const Ventanilla& otra) const {
+		return nombre == otra.nombre &&
+			tiqueteActual == otra.tiqueteActual &&
+			disponible == otra.disponible;
 	}
 };

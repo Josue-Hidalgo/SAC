@@ -22,6 +22,7 @@
 #include "AdmTiquetes.h"
 #include "AdmEstadisticas.h"
 
+
 using std::cout;
 using std::cin;
 using std::endl;
@@ -145,9 +146,22 @@ public:
 		return adminTiposUsuario->buscar(pos).getPrioridad();
 	}
 	
-	void atenderSiguiente(const int& area, const int& windowNum) {
-		Area areaSeleccionada = controlador.buscarArea(area - 1); // Restar 1 porque los índices del usuario son 1-based
+	void atenderSiguiente(const int& area, const int& windowNum) { // Busca el siguiente tiquete a ser atendido
+		Area areaSeleccionada = buscarArea(area - 1); // Restar 1 porque los índices del usuario son 1-based
+		Ventanilla window = areaSeleccionada.getListaVentanillas().get(windowNum - 1);
 		adminAreas->atenderSiguiente(areaSeleccionada, windowNum);
+		
+
+		// Calcular el tiempo de espera
+		time_t tiempoFin = time(nullptr);
+		time_t tiempoIni = areaSeleccionada.getColaTiquetes()->min().getHora();
+
+		// Actualizar estadísticas en AdmEstadisticas
+		admEstadisticas->acumularTiqueteArea(areaSeleccionada);
+		admEstadisticas->sumarTiempoEspera(tiempoFin, tiempoIni);
+
+		// Actualizar estadísticas de la ventanilla
+		window.incrementarCantidadTiquetesAtendidos(); // Método hipotético para incrementar el contador de tiquetes atendidos
 		admEstadisticas->actualizar();// Revisar parámetros necesarios
 	}
 };

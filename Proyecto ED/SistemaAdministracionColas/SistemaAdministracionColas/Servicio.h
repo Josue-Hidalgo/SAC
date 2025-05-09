@@ -59,6 +59,13 @@ public:
 			<< "Área de Atención: " << servicio.areaAtencion.getNombre() << "\n";
 		return os;
 	}
+
+    bool operator==(const Servicio& otro) const {
+        return nombre == otro.nombre &&
+            descripcion == otro.descripcion &&
+            prioridad == otro.prioridad &&
+            areaAtencion == otro.areaAtencion; // Requiere que Area tenga el operador ==
+    }
 	int getPrioridad() const { return prioridad; }
 };
 

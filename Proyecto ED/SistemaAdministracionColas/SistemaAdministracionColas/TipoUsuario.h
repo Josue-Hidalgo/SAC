@@ -72,5 +72,11 @@ public:
 		return os;
 	}
 
+	bool operator==(const TipoUsuario& otro) const {
+		return nombre == otro.nombre &&
+			descripcion == otro.descripcion &&
+			prioridad == otro.prioridad;
+	}
+
 };
 
