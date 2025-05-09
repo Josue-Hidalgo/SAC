@@ -39,10 +39,6 @@ using std::invalid_argument;
 int indiceGlobal = 0; // Variable global para el índice de los tiquetes
 Controlador controlador;
 
-AdmTiposUsuario adminTiposUsuario;
-AdmServicio adminServicio;
-AdmAreas adminAreas;
-
 /*INPUT FUNCTIONS*/
 static int inputInt(const string& message) {
 	string input;
@@ -103,7 +99,7 @@ static void printNewPage() {
 }
 
 static void printUserTypes() {
-	adminTiposUsuario.listar();
+	controlador.listarTiposUsuario();
 }
 
 static void printTicketMenu() {
@@ -182,7 +178,6 @@ static bool listUserTypes() {
 static void deleteUserType() {
 	try {
 		int posicion = inputInt("Ingrese el numero de Tipo de Usuario que quiere eliminar: ") - 1;
-		string nombre = adminTiposUsuario.eliminar(posicion); //Revisar, si se cambia acá genera error
 		cout << "Tipo de Usuario eliminado: " << controlador.eliminarTipoUsuario(posicion) << endl;
 	} catch (runtime_error) {
 		cout << "No se pudo eliminar el tipo de usuario." << endl;
@@ -210,7 +205,7 @@ static bool listAreas() {
 
 static void deleteArea() {
 	int posicion = inputInt("Ingrese el número de área que desea eliminar: ") - 1;
-	cout << "Área eliminada: " << adminAreas.eliminar(posicion) << endl;
+	cout << "Área eliminada: " << controlador.eliminarArea(posicion) << endl;
 }
 
 static void modifyArea() {
