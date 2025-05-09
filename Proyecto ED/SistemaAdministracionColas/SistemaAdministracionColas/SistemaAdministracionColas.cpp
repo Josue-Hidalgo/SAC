@@ -40,6 +40,10 @@ using std::invalid_argument;
 int indiceGlobal = 0; // Variable global para el índice de los tiquetes
 Controlador controlador;
 
+AdmTiposUsuario adminTiposUsuario;
+AdmServicio adminServicio;
+AdmAreas adminAreas;
+
 /*INPUT FUNCTIONS*/
 static int inputInt(const string& message) {
 	string input;
@@ -100,7 +104,7 @@ static void printNewPage() {
 }
 
 static void printUserTypes() {
-	controlador.listarTiposUsuario();
+	adminTiposUsuario.listar();
 }
 
 static void printTicketMenu() {
@@ -167,6 +171,7 @@ static void addUserType() {
 		throw runtime_error("La prioridad no puede ser negativa.");
 
 	controlador.agregarTipoUsuario(nombre, descripcion, prioridad);
+	//adminTiposUsuario.agregar(nombre, descripcion, prioridad); // Esto fue lo que se cambia
 
 	cout << "Tipo de usuario agregado exitosamente." << endl;
 }
@@ -178,9 +183,7 @@ static bool listUserTypes() {
 static void deleteUserType() {
 	try {
 		int posicion = inputInt("Ingrese el numero de Tipo de Usuario que quiere eliminar: ") - 1;
-		
-		string nombre = controlador.eliminarTipoUsuario(posicion);
-
+		string nombre = adminTiposUsuario.eliminar(posicion); //Revisar, si se cambia acá genera error
 		cout << "Tipo de Usuario eliminado: " << nombre << endl;
 		
 		//controlador.eliminarTipoUsuario(posicion);
@@ -211,7 +214,10 @@ static bool listAreas() {
 
 static void deleteArea() {
 	int posicion = inputInt("Ingrese el número de área que desea eliminar: ") - 1;
-	string nombre = controlador.eliminarArea(posicion);
+	string nombre = adminAreas.eliminar(posicion); //Revisar, si se cambia acá genera error
+
+	//controlador.eliminarArea(posicion);
+
 	cout << "Área eliminada: " << nombre << endl;
 }
 
@@ -248,7 +254,10 @@ static void addService() {
 
 static void deleteService() {
 	int posicion = inputInt("Ingrese el número de servicio que desea eliminar: ") - 1;
-	string nombre = controlador.eliminarServicio(posicion);
+	string nombre = adminServicio.eliminar(posicion); //Revisar, si se cambia acá genera error
+	
+	//controlador.eliminarServicio(posicion);
+
 	cout << "Servicio eliminado: " << nombre << endl;
 }
 
