@@ -29,7 +29,7 @@ using std::runtime_error;
 class Ventanilla {
 private:
    string nombre;
-   string tiqueteActual; // puede que este vacío al principio hasta que se atienda un tiquete
+   string tiqueteActual;
    bool disponible;
 
 public:
@@ -50,24 +50,16 @@ public:
    
 	void setNombre(string nombre) { this->nombre = nombre; }
    
-	void setTiqueteAtendido(string tiqueteActual) { this->tiqueteActual = tiqueteActual; }
-   
-	void asignarTiquete(string codigoTiquete) {
-		if (disponible) {
-			tiqueteActual = codigoTiquete;
-			disponible = false;
-		}
-		else
-			cout << "La ventanilla no está disponible para atender un nuevo tiquete." << endl;
+	void setTiqueteAtendido(string tiqueteActual) { 
+		if (!estaDisponible())
+			throw runtime_error("Ventanilla no disponible.");
+		this->tiqueteActual = tiqueteActual; 
+		disponible = false;
 	}
 
-	void setTiqueteAtendido() {
-		if (!disponible) {
-			tiqueteActual = "No se ha atendido a ninguno.";
-			disponible = true;
-		}
-		else
-			cout << "La ventanilla ya está disponible." << endl;
+	void liberarVentanilla() {
+		tiqueteActual = "";
+		disponible = true;
 	}
 
 	bool estaDisponible() const { return disponible; }

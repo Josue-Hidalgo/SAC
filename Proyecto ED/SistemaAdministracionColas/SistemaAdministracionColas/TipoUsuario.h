@@ -31,15 +31,13 @@ private:
 	int prioridad;
 
 public:
-
 	TipoUsuario() : nombre(""), descripcion(""), prioridad(0) {}
 
 	// Esta lista de inicialización de miembros es equivalente a:
-	// this->nombre = nombre; y etc.
+	// this->nombre = nombre; y etc. Nada más que utilizando el constructor
 	TipoUsuario(string nombre, string descripcion, int prioridad) 
 		: nombre(nombre), descripcion(descripcion), prioridad(prioridad) {}
 	
-	// const despues del nombre de la funcion indica que no se va a modificar el objeto
 	string getNombre() const { return nombre; }
 	
 	string getDescripcion() const { return descripcion; }
@@ -66,7 +64,6 @@ public:
 	bool operator>(const TipoUsuario& otro) const {
 		return this->prioridad > otro.prioridad;
 	}
-
 	
 	friend ostream& operator<<(ostream& os, const TipoUsuario& tipoUsuario) {
 		os << "Tipo de Usuario: " << tipoUsuario.nombre << "\n"

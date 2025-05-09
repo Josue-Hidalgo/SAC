@@ -62,29 +62,30 @@ public:
 		return false;
 	}
 
-	bool listarConVentanillas() {
+	bool listarCantVentanillasTiquetes() {
 
 		if (listaAreas->isEmpty()) {
 			cout << "No hay áreas registradas." << endl;
 			return listaAreas->isEmpty();
 		}
 
-		cout << "Total de áreas registradas: " << listaAreas->getSize() << endl;
 		cout << "\nÁreas registradas:\n" << endl;
+		
 		for (int i = 0; i < listaAreas->getSize(); i++) {
 			listaAreas->goToPos(i);
+
 			Area area = listaAreas->getElement();
-			cout << "Área #" << i + 1 << "\n" << area << "\n" << endl;
+			LinkedPriorityQueue<Tiquete>* colaTiquetes = area.getColaTiquetes();
 
-			cout << "Ventanillas del Área " << area.getNombre() << ":" << endl;
-			for (int j = 0; j < area.getNumeroVentanillas(); j++) {
-				ArrayList<Ventanilla> listaVentanillas = area.getListaVentanillas();
-				listaVentanillas.goToPos(j);
-				Ventanilla ventanilla = listaVentanillas.getElement();
-				cout << "Ventanilla " << j + 1 << ": " << ventanilla.getNombre() << endl;
-			}
+			cout << "Nombre del Área:" << area.getNombre() << endl;
+			cout << "  " << area.getNumeroVentanillas() << endl;
+			
+			cout << "\nTiquetes en cola del Área " << area.getNombre() << ":" << endl;
+			if (colaTiquetes->isEmpty())
+				cout << "No hay tiquetes en cola." << endl;
+			else
+				colaTiquetes->print();
 		}
-
 		return false;
 	}
 
@@ -105,15 +106,12 @@ public:
 	}
 
 	void modificar(int posicion, int nuevoNumeroVentanillas) {
-		if (posicion < 0 || posicion >= listaAreas->getSize()) {
-			cout << "Posición inválida." << endl;
-			return;
-		}
+		if (posicion < 0 || posicion >= listaAreas->getSize())
+			throw runtime_error("Posición inválida.");
 		
 		listaAreas->goToPos(posicion);
 		Area area = listaAreas->getElement();
 		area.setNuevoNumeroVentanillas(nuevoNumeroVentanillas);
-		listaAreas->goToPos(posicion);
 
 		// Eliminar el área actual y agregar la modificada
 		listaAreas->remove();

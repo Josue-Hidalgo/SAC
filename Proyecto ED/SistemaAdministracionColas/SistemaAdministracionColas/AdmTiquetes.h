@@ -39,9 +39,14 @@ private:
 	}
 
 public:
+	AdmTiquetes() {}
+
+	~AdmTiquetes() {}
+
 	void agregar(string codigoArea, int indiceGlobal) {
 		string codigoTiquete = generarCodigo(codigoArea, indiceGlobal);
 	}
+
 	void eliminar();
 	void buscar();
 	void listar();

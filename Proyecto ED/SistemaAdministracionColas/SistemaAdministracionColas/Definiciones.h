@@ -13,5 +13,5 @@
  */
 
 #pragma once
-#define DEFAULT_MAX 1024
+#define DEFAULT_MAX 16
 #define DEFAULT_PRIORITIES 10

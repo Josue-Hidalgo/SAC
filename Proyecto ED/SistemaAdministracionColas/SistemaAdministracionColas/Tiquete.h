@@ -36,9 +36,6 @@ private:
 	int prioridadFinal;
 
 public:
-
-
-
 	// Constructor por defecto
 	Tiquete() : codigo(""), hora(0), prioridadFinal(0) {}
 
@@ -58,26 +55,18 @@ public:
 	void setPrioridadFinal(int prioridadFinal) { this->prioridadFinal = prioridadFinal; }
 	
 	void print() const {
-		cout << "Tiquete: " << codigo << endl;
-
-		struct tm timeInfo;
-		localtime_s(&timeInfo, &hora);
-
-		char buffer[80];
-		strftime(buffer, sizeof(buffer), "%d/%m/%Y %H:%M:%S", &timeInfo);
-
-		cout << "Hora: " << buffer << endl;
-		cout << "Prioridad Final: " << prioridadFinal << endl;
+		cout << *this;
 	}
 
 	friend ostream& operator<<(ostream& os, const Tiquete& tiquete) {
-		os << "Tiquete: " << tiquete.codigo << endl;
+		/*Formateando la Hora*/
 		struct tm timeInfo;
 		localtime_s(&timeInfo, &tiquete.hora);
 		char buffer[80];
 		strftime(buffer, sizeof(buffer), "%d/%m/%Y %H:%M:%S", &timeInfo);
-		os << "Hora: " << buffer << endl;
-		os << "Prioridad Final: " << tiquete.prioridadFinal << endl;
+
+		os << "Tiquete: " << tiquete.codigo << "Dia y hora de llegada: " << buffer << "Prioridad Final: " << tiquete.prioridadFinal << endl;
+
 		return os;
 	}
 };

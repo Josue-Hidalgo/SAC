@@ -33,28 +33,10 @@ private:
     Area areaAtencion;
 
 public:
-
     Servicio() : nombre(""), descripcion(""), prioridad(0), areaAtencion() {}
 
     Servicio(string nombre, string descripcion, int prioridad, Area areaAtencion) 
         :nombre(nombre), descripcion(descripcion), prioridad(prioridad), areaAtencion(areaAtencion) {}
-
-    /*
-    // Constructor de copia
-    Servicio(const Servicio& other)
-        : nombre(other.nombre), descripcion(other.descripcion), prioridad(other.prioridad), areaAtencion(other.areaAtencion) {}
-
-    // Operador de asignación
-    Servicio& operator=(const Servicio& other) {
-        if (this != &other) {
-            nombre = other.nombre;
-            descripcion = other.descripcion;
-            prioridad = other.prioridad;
-            areaAtencion = other.areaAtencion;
-        }
-        return *this;
-    }
-    */
 
     string getNombre() const { return nombre; }
     string getDescripcion() const { return descripcion; }
@@ -70,8 +52,6 @@ public:
         cout << "Área: " << areaAtencion.getNombre() << endl;
     }
 
-	// Método para imprimir OPERADOR <<
-
 	friend ostream& operator<<(ostream& os, const Servicio& servicio) {
 		os << "Servicio: " << servicio.nombre << "\n"
 			<< "Descripción: " << servicio.descripcion << "\n"
@@ -79,14 +59,5 @@ public:
 			<< "Área de Atención: " << servicio.areaAtencion.getNombre() << "\n";
 		return os;
 	}
-
-	/*/Operadores de comparación
-	bool operator<(const Servicio& other) const {
-		return prioridad < other.prioridad;
-	}
-
-	bool operator>(const Servicio& other) const {
-		return prioridad > other.prioridad;
-	}*/
 };
 

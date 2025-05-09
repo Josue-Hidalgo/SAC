@@ -30,13 +30,24 @@ using std::to_string;
 using std::runtime_error;
 
 class Area {
-private:	
+private:
 	string codigo;
 	string nombre;
 	string descripcion;
 	int numeroVentanillas;
 	ArrayList<Ventanilla> listaVentanillas;
 	LinkedPriorityQueue<Tiquete>* colaTiquetes;
+
+	ArrayList<Ventanilla> crearVentanillas(int cantidad) {
+		if (cantidad <= 0)
+			throw runtime_error("La cantidad de ventanillas debe ser mayor a cero.");
+
+		ArrayList<Ventanilla> nuevaLista;
+		for (int i = 1; i <= cantidad; i++)
+			nuevaLista.append(Ventanilla(codigo + to_string(i)));
+
+		return nuevaLista;
+	}
 
 public:
 
@@ -48,48 +59,71 @@ public:
 
 	Area(string codigo, string nombre, string descripcion, int numeroVentanillas)
 		: codigo(codigo), nombre(nombre), descripcion(descripcion), numeroVentanillas(numeroVentanillas), colaTiquetes(nullptr) {
-		
-		for (int i = 1; i <= numeroVentanillas; i++)
-			listaVentanillas.append(Ventanilla(codigo + to_string(i)));
+		listaVentanillas = crearVentanillas(numeroVentanillas);
 	}
 
 	~Area() {
 		delete colaTiquetes;
 	}
 
-    // Modificación del constructor de copia para corregir los errores
-    Area(const Area& other)
+	// Modificación del constructor de copia para corregir los errores
+	Area(const Area& other)
 		: codigo(other.codigo), nombre(other.nombre), descripcion(other.descripcion), numeroVentanillas(other.numeroVentanillas),
 		listaVentanillas(other.listaVentanillas), colaTiquetes(other.colaTiquetes) {
-    }
+	}
 
+	//GET
 	string getCodigo() const { return codigo; }
-	
+
 	string getNombre() const { return nombre; }
-	
+
 	string getDescripcion() const { return descripcion; }
-	
+
 	ArrayList<Ventanilla> getListaVentanillas() {
 		return listaVentanillas;
 	}
 
+	LinkedPriorityQueue<Tiquete>* getColaTiquetes() {
+		return colaTiquetes;
+	}
+
 	int getNumeroVentanillas() const { return numeroVentanillas; }
 
+	//SET
 	void setCodigo(string codigo) { this->codigo = codigo; }
 	
 	void setNombre(string nombre) { this->nombre = nombre; }
 	
 	void setDescripcion(string descripcion) { this->descripcion = descripcion; }
 	
-	void setNuevoNumeroVentanillas(int numeroVentanillas) {
-		if (numeroVentanillas <= 0)
+	void setNuevoNumeroVentanillas(int nuevoNumeroVentanillas) {
+		if (nuevoNumeroVentanillas <= 0)
 			throw runtime_error("La cantidad de ventanillas debe ser mayor a cero.");
-		this->numeroVentanillas = numeroVentanillas;
+		
+		ArrayList<Ventanilla> temp = crearVentanillas(nuevoNumeroVentanillas);
+		
+		if (nuevoNumeroVentanillas > numeroVentanillas) {
+			for (int i = 0; i < numeroVentanillas; i++) {
+				listaVentanillas.goToPos(i);
+				temp.goToPos(i);
+				temp.getElement().setTiqueteAtendido(listaVentanillas.getElement().getTiqueteActual());
+			}
+		}
+		else {
+			for (int i = 0; i < nuevoNumeroVentanillas; i++) {
+				listaVentanillas.goToPos(i);
+				temp.goToPos(i);
+				temp.getElement().setTiqueteAtendido(listaVentanillas.getElement().getTiqueteActual());
+			}
+		}
+
 		eliminarVentanillas();
-		for (int i = 1; i <= numeroVentanillas; i++)
-			listaVentanillas.append(Ventanilla(codigo + to_string(i)));
+		listaVentanillas = temp;
+		this->numeroVentanillas = nuevoNumeroVentanillas;
+
 	}
 
+	// Métodos de Ventanilla
 	void eliminarVentanillas() {
 		listaVentanillas.clear();
 	}
@@ -126,6 +160,11 @@ public:
 		//os << "Descripción: " << area.descripcion << endl;
 		os << "Número de Ventanillas: " << area.numeroVentanillas << endl;
 		return os;
+	}
+
+	// Sobrecarga del operador de igualdad
+	bool operator==(const Area& other) const {
+		return (codigo == other.codigo && nombre == other.nombre && descripcion == other.descripcion);
 	}
 };
 

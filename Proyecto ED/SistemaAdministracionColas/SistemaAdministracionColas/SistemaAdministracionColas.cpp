@@ -177,7 +177,7 @@ static void addUserType() {
 }
 
 static bool listUserTypes() {
-	controlador.listarTiposUsuario(); //Revisar, return se puso en el controlador
+	return controlador.listarTiposUsuario(); //Revisar, return se puso en el controlador
 }
 
 static void deleteUserType() {
@@ -209,7 +209,7 @@ static void addArea() {
 }
 
 static bool listAreas() {
-	controlador.listarAreas(); //Revisar, return se puso en el controlador
+	return controlador.listarAreas(); //Revisar, return se puso en el controlador
 }
 
 static void deleteArea() {
@@ -231,7 +231,7 @@ static void modifyArea() {
 }
 
 static Area lookForArea(int pos) {
-	controlador.buscarArea(pos);// Retornar un objeto de tipo Area //Revisar, return se puso en el controlador
+	return controlador.buscarArea(pos);// Retornar un objeto de tipo Area //Revisar, return se puso en el controlador
 }
 
 /*SERVICES*/
@@ -273,7 +273,7 @@ static void reorderService() {
 static bool listServices() {
 	// Aquí se mostrarían los servicios disponibles
 	cout << "Servicios disponibles:" << endl;
-	controlador.listarServicios(); //Revisar, return se puso en el controlador
+	return controlador.listarServicios(); //Revisar, return se puso en el controlador
 }
 
 /*AUXILIARES*/
@@ -301,8 +301,6 @@ static void getTicket() {
 
 	createTicket(userType, service);
 }
-
-static void getArea() {}
 
 // AUX_OPCION 3
 static void searchInQueue(const int& area, const int& windowNum) {
@@ -449,8 +447,8 @@ static void admClearQueueStatistics() {
 //OPCION 1
 static void queueState() {
 	//waitAndClear();
-	// Implementación de la función para mostrar el estado de las colas
 	cout << "--- Estado de las colas ---" << endl;
+	controlador.listarAreasCantVentanillasTiquetes();
 }
 
 //OPCION 2
@@ -523,6 +521,7 @@ static void administration() {
 //OPCION 5
 static void statistics() {
 	cout << "Estadísticas del sistema:" << endl;
+	controlador.listarEstadisticas();
 }
 
 /*MAIN*/

@@ -1,4 +1,3 @@
-
 /*
  * Descripción General:
  *
@@ -8,7 +7,7 @@
  * que se encuentran en los administradores de tipos de usuario, areas, servicios, tiquete, 
  * estadísticas.
  *
- * Autor: Josue Hidalgo
+ * Autor: Josue Hidalgo // Marvin Campos
  *
  */
 
@@ -52,25 +51,26 @@ public:
 		adminTiposUsuario->agregar(nombre, descripcion, prioridad); //Estos fue lo que se usó en el main
 	}
 
-	void listarTiposUsuario() {
-		adminTiposUsuario->listar();
-		return;
+	bool listarTiposUsuario() {
+		return adminTiposUsuario->listar();
 	}
 
 	void eliminarTipoUsuario(int posicion) {
 		adminTiposUsuario->eliminar(posicion);
 	}
 
-	void buscarTipoUsuario();
-	
+	//TipoUsuario buscarTipoUsuario();
 	
 	void agregarArea(string codigo, string nombre, string descripcion, int numeroVetanillas) {
 		adminAreas->agregar(codigo, nombre, descripcion, numeroVetanillas);
 	}
 		
-	void listarAreas() {
-		adminAreas->listar();
-		return;
+	bool listarAreas() {
+		return adminAreas->listar();
+	}
+
+	bool listarAreasCantVentanillasTiquetes() {
+		return adminAreas->listarCantVentanillasTiquetes();
 	}
 
 	void eliminarArea(int posicion) {
@@ -81,14 +81,14 @@ public:
 		adminAreas->modificar(posicion, nuevoNumeroVentanillas);
 	}
 	
-	void buscarArea(int pos) {
-		adminAreas->buscar(pos);
-		return;
+	Area buscarArea(int pos) {
+		return adminAreas->buscar(pos);
 	}
 
 	void agregarServicio(string nombre, string descripcion, int prioridad, Area areaAtencion) {
 		adminServicio->agregar(nombre, descripcion, prioridad, areaAtencion);
 	}
+
     void eliminarServicio(int posicion) {
        adminServicio->eliminar(posicion);
     }
@@ -97,20 +97,35 @@ public:
 		adminServicio->modificar(posicion, nuevaPrioridad);
 	}
 
-	void listarServicios() {
-		adminServicio->listar();
-		return;
+	bool listarServicios() {
+		return adminServicio->listar();
 	}
 	
-	
-	void buscarServicio();
+	//void buscarServicio();
 
+	//void agregarTiquete();
 
-	void agregarTiquete();
-	void eliminarTiquete();
+	//void eliminarTiquete();
+
 	void listarTiquetes();
-	void buscarTiquete();
+	
+	void listarCodigosTiquetes();
 
-	void listarEstadisticas();
+	//void buscarTiquete();
+
+	void listarEstadisticas() {
+		AdmEstadisticas estadisticas;
+		ArrayList<KVPair<Area, int>> lista = estadisticas.promedioEspera();
+
+		for (int i = 0; i < lista.getSize(); i++) {
+			lista.goToPos(i);
+			KVPair<Area, int> promedioArea = lista.getElement();
+			cout << "Área: " << promedioArea.key.getNombre() << ", el tiempo promedio de espera de esta area es: " << promedioArea.value << endl;
+		}
+
+		//estadisticas.acumularTiqueteArea();
+		//estadisticas.acumularTiqueteVentanilla();
+		//estadisticas.acumularTiqueteServicio();
+		//estadisticas.acumularTiqueteTipoUsuario();
+	}
 };
-

@@ -170,7 +170,7 @@ public:
 		for (int i = 0; i < size; i++) {
 			if (i == pos)
 				cout << "*";
-			elements[i].print();
+			elements[i];
 			cout << " ";
 		}
 
