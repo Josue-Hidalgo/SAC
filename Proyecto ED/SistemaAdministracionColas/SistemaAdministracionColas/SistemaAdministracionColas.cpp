@@ -26,9 +26,6 @@
 
 // Clases 
 #include "Controlador.h"
-#include "AdmTiposUsuario.h"
-#include "AdmAreas.h"
-#include "AdmServicio.h"
 
 // Importar con nombres conocidos
 using std::cout;
@@ -186,10 +183,7 @@ static void deleteUserType() {
 	try {
 		int posicion = inputInt("Ingrese el numero de Tipo de Usuario que quiere eliminar: ") - 1;
 		string nombre = adminTiposUsuario.eliminar(posicion); //Revisar, si se cambia acá genera error
-		cout << "Tipo de Usuario eliminado: " << nombre << endl;
-		
-		//controlador.eliminarTipoUsuario(posicion);
-	
+		cout << "Tipo de Usuario eliminado: " << controlador.eliminarTipoUsuario(posicion) << endl;
 	} catch (runtime_error) {
 		cout << "No se pudo eliminar el tipo de usuario." << endl;
 	}
@@ -216,11 +210,7 @@ static bool listAreas() {
 
 static void deleteArea() {
 	int posicion = inputInt("Ingrese el número de área que desea eliminar: ") - 1;
-	string nombre = adminAreas.eliminar(posicion); //Revisar, si se cambia acá genera error
-
-	//controlador.eliminarArea(posicion);
-
-	cout << "Área eliminada: " << nombre << endl;
+	cout << "Área eliminada: " << adminAreas.eliminar(posicion) << endl;
 }
 
 static void modifyArea() {
@@ -256,11 +246,7 @@ static void addService() {
 
 static void deleteService() {
 	int posicion = inputInt("Ingrese el número de servicio que desea eliminar: ") - 1;
-	string nombre = adminServicio.eliminar(posicion); //Revisar, si se cambia acá genera error
-	
-	//controlador.eliminarServicio(posicion);
-
-	cout << "Servicio eliminado: " << nombre << endl;
+	cout << "Servicio eliminado: " << controlador.eliminarServicio(posicion) << endl;
 }
 
 static void reorderService() {
@@ -326,6 +312,7 @@ static void getTicket() {
 
 // AUX_OPCION 3
 static void searchInQueue(const int& area, const int& windowNum) {
+
 	/*
 		Busca en la cola respectiva el siguiente tiquete a atender.
 
@@ -337,7 +324,7 @@ static void searchInQueue(const int& area, const int& windowNum) {
 		Si no hay ningún elemento en la cola respectiva, debe indicar que no hay usuarios en
 		espera.
 
-	*/
+	
 	Area areaSeleccionada = controlador.buscarArea(area - 1); // Restar 1 porque los índices del usuario son 1-based
 	LinkedPriorityQueue<Tiquete>* colaTiquetes = areaSeleccionada.getColaTiquetes();
 
@@ -364,18 +351,18 @@ static void searchInQueue(const int& area, const int& windowNum) {
 
 	// Calcular el tiempo de espera
 	time_t tiempoActual = time(nullptr);
-	int tiempoEspera = static_cast<int>(tiempoActual - siguienteTiquete.getHora());
+	//int tiempoEspera = static_cast<int>(tiempoActual - siguienteTiquete.getHora());
 
 	// Actualizar estadísticas en AdmEstadisticas
 	AdmEstadisticas estadisticas;
-	estadisticas.acumularTiqueteArea(areaSeleccionada, tiempoEspera);
+	//estadisticas.acumularTiqueteArea(areaSeleccionada, tiempoEspera);
 
 	// Actualizar estadísticas de la ventanilla
-	ventanillaSeleccionada.incrementarCantidadTiquetesAtendidos(); // Método hipotético para incrementar el contador de tiquetes atendidos
+	//ventanillaSeleccionada.incrementarCantidadTiquetesAtendidos(); // Método hipotético para incrementar el contador de tiquetes atendidos
 
 	// Mostrar información del tiquete atendido
 	cout << "Tiquete atendido con éxito en la ventanilla " << ventanillaSeleccionada.getNombre() << ":" << endl;
-	siguienteTiquete.print();
+	siguienteTiquete.print();*/
 }
 
 // AUX_OPCION 4
@@ -385,7 +372,7 @@ static void admUserTypes() {
 	int option = -1;
 
 	while (option != 0) {
-		//waitAndClear();
+		waitAndClear();
 
 		printAdmUserTypesMenu();
 
@@ -418,7 +405,7 @@ static void admAreas() {
 	int option = -1;
 
 	while (option != 0) {
-		//waitAndClear();
+		waitAndClear();
 
 		printAdmAreasMenu();
 
@@ -456,7 +443,7 @@ static void admServices() {
 	int option = -1;
 
 	while (option != 0) {
-		//waitAndClear();
+		waitAndClear();
 
 		bool isEmpty = false;
 		printAdmServicesMenu();
@@ -498,7 +485,7 @@ static void admClearQueueStatistics() {
 	menú de administración.
 	*/
 
-	//waitAndClear();
+	waitAndClear();
 	cout << "Se limpiaron las colas y estadísticas" << endl;
 }
 
@@ -506,7 +493,7 @@ static void admClearQueueStatistics() {
 
 //OPCION 1
 static void queueState() {
-	//waitAndClear();
+	waitAndClear();
 	cout << "--- Estado de las colas ---" << endl;
 	controlador.listarAreasCantVentanillasTiquetes();
 }
@@ -515,7 +502,7 @@ static void queueState() {
 static void ticket() {
 	int option = -1;
 	while (option != 0) {
-		//waitAndClear();
+		waitAndClear();
 
 		printTicketMenu();
 
@@ -549,7 +536,7 @@ static void administration() {
 	int option = -1;
 
 	while (option != 0) {
-		//waitAndClear();
+		waitAndClear();
 
 		printAdmMenu();
 
@@ -592,7 +579,7 @@ int main() {
 
 		int option = -1;
 		while (option != 0) {
-			//waitAndClear();
+			waitAndClear();
 
 			printMenu();
 
