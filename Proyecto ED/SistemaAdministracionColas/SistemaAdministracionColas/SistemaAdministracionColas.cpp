@@ -287,7 +287,7 @@ static void waitAndClear() {
 }
 
 // AUX_OPCION 2
-static void createTicket(const int& userType, const int& service) {
+static void createTicket(const int& userType, const int& service) { // ESTO DEBE TRADUCIRSE A CONTROLADOR
 	// Obtener el servicio seleccionado
 	Servicio servicioSeleccionado = controlador.buscarServicio(service - 1);
 
