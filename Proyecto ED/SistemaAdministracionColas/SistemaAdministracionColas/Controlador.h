@@ -33,6 +33,7 @@ private:
 	AdmTiposUsuario* adminTiposUsuario;
 	AdmServicio* adminServicio;
 	AdmAreas* adminAreas;
+	AdmEstadisticas* admEstadisticas;
 
 public:
 	Controlador() {
@@ -142,5 +143,11 @@ public:
 		if (pos < 0 || pos >= adminTiposUsuario->getSize())
 			throw runtime_error("Posición inválida.");
 		return adminTiposUsuario->buscar(pos).getPrioridad();
+	}
+	
+	void atenderSiguiente(const int& area, const int& windowNum) {
+		Area areaSeleccionada = controlador.buscarArea(area - 1); // Restar 1 porque los índices del usuario son 1-based
+		adminAreas->atenderSiguiente(areaSeleccionada, windowNum);
+		admEstadisticas->actualizar();// Revisar parámetros necesarios
 	}
 };
