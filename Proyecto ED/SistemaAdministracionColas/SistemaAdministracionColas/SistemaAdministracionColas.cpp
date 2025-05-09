@@ -23,7 +23,6 @@
 #include <stdexcept>
 #include <ctime>
 
-
 // Clases 
 #include "Controlador.h"
 
@@ -36,27 +35,83 @@ using std::string;
 using std::invalid_argument;
 
 /*VARIABLES GLOBALES*/
-int indiceGlobal = 0; // Variable global para el índice de los tiquetes
+int indiceGlobal = 100; // Variable global para el índice de los tiquetes
 Controlador controlador;
+
+/*Funciones de Pruebas*/
+static void agregarTiposUsuarios() {
+	controlador.agregarTipoUsuario("Adulto Mayor", "Personas mayores de 65 años, con atención prioritaria", 1);
+	controlador.agregarTipoUsuario("Persona con Discapacidad", "Usuarios con alguna discapacidad, requieren atención especial", 1);
+	controlador.agregarTipoUsuario("Mujer Embarazada", "Mujeres embarazadas con prioridad en el servicio", 1);
+	controlador.agregarTipoUsuario("Cliente Regular", "Usuarios comunes sin condiciones especiales", 3);
+	controlador.agregarTipoUsuario("Cliente VIP", "Clientes con membresía premium o trato preferencial", 2);
+	controlador.agregarTipoUsuario("Funcionario Interno", "Empleados internos que acceden a servicios administrativos", 4);
+	controlador.agregarTipoUsuario("Menor de Edad", "Menores que requieren acompañamiento o trámite especial", 2);
+}
+
+static void agregarAreas() {
+	controlador.agregarArea("GEN01", "Medicina General", "Área de atención médica básica sin especialidades", 3);
+	controlador.agregarArea("EME01", "Sala de Emergencias", "Área destinada a la atención inmediata de urgencias", 5);
+	controlador.agregarArea("ADM01", "Recepción", "Área de trámites administrativos y atención al público", 4);
+	controlador.agregarArea("PED01", "Pediatría", "Área especializada en atención médica a menores", 2);
+	controlador.agregarArea("ODO01", "Odontología", "Área para servicios dentales generales y especializados", 2);
+	controlador.agregarArea("LEG01", "Oficina Legal", "Área de orientación jurídica a usuarios", 1);
+	controlador.agregarArea("LAB01", "Laboratorio", "Área de análisis clínicos y toma de muestras", 3);
+	controlador.agregarArea("ENF01", "Enfermería", "Área para aplicación de tratamientos y vacunas", 2);
+	controlador.agregarArea("PSI01", "Psicología", "Área de atención psicológica y contención emocional", 1);
+	controlador.agregarArea("ESP01", "Atención Especial", "Área adaptada para usuarios con discapacidad", 2);
+}
+
+static void agregarServicios() {
+	controlador.agregarServicio("Consulta General", "Atención médica básica sin especialidad", 3, controlador.buscarArea(0)); // Medicina General
+	controlador.agregarServicio("Emergencias", "Atención inmediata por situaciones críticas", 1, controlador.buscarArea(1)); // Sala de Emergencias
+	controlador.agregarServicio("Trámites Administrativos", "Gestión de documentos, pagos o información", 4, controlador.buscarArea(2)); // Recepción
+	controlador.agregarServicio("Atención Pediátrica", "Servicios dirigidos a menores de edad", 2, controlador.buscarArea(3)); // Pediatría
+	controlador.agregarServicio("Atención Odontológica", "Servicios dentales básicos y especializados", 3, controlador.buscarArea(4)); // Odontología
+	controlador.agregarServicio("Asesoría Legal", "Orientación jurídica para usuarios del sistema", 4, controlador.buscarArea(5)); // Oficina Legal
+	controlador.agregarServicio("Laboratorio Clínico", "Toma y análisis de muestras médicas", 2, controlador.buscarArea(6)); // Laboratorio
+	controlador.agregarServicio("Vacunación", "Aplicación de vacunas según el esquema nacional", 2, controlador.buscarArea(7)); // Enfermería
+	controlador.agregarServicio("Atención Psicológica", "Soporte emocional y diagnóstico psicológico", 3, controlador.buscarArea(8)); // Psicología
+	controlador.agregarServicio("Atención para Discapacidad", "Servicios específicos para personas con discapacidad", 1, controlador.buscarArea(9)); // Atención Especial
+}
 
 /*INPUT FUNCTIONS*/
 static int inputInt(const string& message) {
-	string input;
-	cout << message;
-	getline(cin, input);
-	return stoi(input); // stoi (string to integer) lanza std::out_of_range y std::invalid_argument si no es válido
+	while (true) {
+		try {
+			string input;
+			cout << message;
+			getline(cin, input);
+			return stoi(input); // Convierte a entero, lanza excepciones si falla
+		}
+		catch (const std::invalid_argument&) {
+			cout << "Error: Entrada no válida. Por favor, ingrese un número entero." << endl;
+		}
+		catch (const std::out_of_range&) {
+			cout << "Error: Número fuera de rango. Por favor, intente de nuevo." << endl;
+		}
+	}
 }
 
 static string inputString(const string& message) {
-	string input;
-	cout << message;
-	getline(cin, input);
-	if (input.empty())
-		throw invalid_argument("La entrada no puede estar vacía.");
-	return input;
+	while (true) {
+		try {
+			string input;
+			cout << message;
+			getline(cin, input);
+			if (input.empty())
+				throw invalid_argument("La entrada no puede estar vacía.");
+			return input;
+		}
+		catch (const std::invalid_argument& e) {
+			cout << "Error: " << e.what() << " Por favor, intente de nuevo." << endl;
+		}
+	}
 }
 
 /* PRINTS */
+
+//General
 static void printTitle() {
 	cout << endl;
 	cout << "Bienvenido a ... " << endl;
@@ -77,16 +132,6 @@ static void printTitle() {
 
 }
 
-static void printMenu() {
-	cout << "Menu: " << endl;
-	cout << "1. Estado de Colas." << endl;
-	cout << "2. Tiquetes. Quiero obtener un tiquete y entrar en cola." << endl;
-	cout << "3. Atender. Quiero saber quien será el siguiente en ser atendido." << endl;
-	cout << "4. Administración. Soy un administrador" << endl;
-	cout << "5. Estadísticas. Quiero ver las estadísticas del sistema." << endl;
-	cout << "0. Quiero SALIR." << endl;
-}
-
 static void printWaitKey() {
 	cout << "Presione ENTER para continuar..." << endl;
 	string dummy;
@@ -98,28 +143,38 @@ static void printNewPage() {
 		cout << endl;
 }
 
+//List Model
 static void printUserTypes() {
 	controlador.listarTiposUsuario();
+}
+
+static void printServices() {
+	controlador.listarServicios();
+}
+
+static void printAreas() {
+	controlador.listarAreas();
+}
+
+static void printWindowNumber() {
+	controlador.listarAreasCantVentanillasTiquetes();
+}
+
+//Menus
+static void printMenu() {
+	cout << "Menu: " << endl;
+	cout << "1. Estado de Colas." << endl;
+	cout << "2. Tiquetes. Quiero obtener un tiquete y entrar en cola." << endl;
+	cout << "3. Atender. Quiero saber quien será el siguiente en ser atendido." << endl;
+	cout << "4. Administración. Soy un administrador" << endl;
+	cout << "5. Estadísticas. Quiero ver las estadísticas del sistema." << endl;
+	cout << "0. Quiero SALIR." << endl;
 }
 
 static void printTicketMenu() {
 	cout << "Menu de Tiquetes:" << endl;
 	cout << "1. Obtener un tiquete." << endl;
 	cout << "0. SALIR. Regresa al menú principal." << endl;
-}
-
-static void printServices() {
-	// Aquí se mostrarían los servicios disponibles
-}
-
-static void printAreas() {
-	cout << "Áreas disponibles:" << endl;
-	// Aquí se mostrarían las áreas disponibles
-}
-
-static void printWindowNumber() {
-	cout << "Número de ventanilla:" << endl;
-	// Aquí se mostrarían los números de ventanilla disponibles
 }
 
 static void printAdmMenu() {
@@ -158,17 +213,24 @@ static void printAdmServicesMenu() {
 
 /*USERTYPE*/
 static void addUserType() {
-	string nombre = inputString("Ingrese el nombre del tipo de usuario: ");
-	string descripcion = inputString("Ingrese la descripción del tipo de usuario: ");
-	int prioridad = inputInt("Ingrese la prioridad del tipo de usuario: ");
-	
-	if (prioridad < 0)
-		throw runtime_error("La prioridad no puede ser negativa.");
+	bool flag = true;
+	while (flag) {
+		try {
+			string nombre = inputString("Ingrese el nombre del tipo de usuario: ");
+			string descripcion = inputString("Ingrese la descripción del tipo de usuario: ");
+			int prioridad = inputInt("Ingrese la prioridad del tipo de usuario: ");
 
-	controlador.agregarTipoUsuario(nombre, descripcion, prioridad);
-	//adminTiposUsuario.agregar(nombre, descripcion, prioridad); // Esto fue lo que se cambia
+			if (prioridad < 0)
+				throw runtime_error("La prioridad no puede ser negativa.");
 
-	cout << "Tipo de usuario agregado exitosamente." << endl;
+			controlador.agregarTipoUsuario(nombre, descripcion, prioridad);
+			cout << "Tipo de usuario agregado exitosamente." << endl;
+			flag = false; // Salir del bucle si no hay errores
+		}
+		catch (const std::exception& e) {
+			cout << "Error: " << e.what() << "\nPor favor, intente de nuevo." << endl;
+		}
+	}
 }
 
 static bool listUserTypes() {
@@ -184,19 +246,31 @@ static void deleteUserType() {
 	}
 }
 
+static TipoUsuario lookForUserType(int pos) {
+	return controlador.buscarTipoUsuario(pos);
+}
+
 /*AREAS*/
 static void addArea() {
-	string codigo = inputString("Ingrese el código del área: ");
-	string nombre = inputString("Ingrese el nombre del área: ");
-	string descripcion = inputString("Ingrese la descripción del área: ");
-	int numeroVentanillas = inputInt("Ingrese la cantidad de ventanillas: ");
-	
-	if (numeroVentanillas <= 0)
-		throw runtime_error("La cantidad de ventanillas debe ser mayor a cero.");
+	bool flag = true;
+	while (true) {
+		try {
+			string codigo = inputString("Ingrese el código del área: ");
+			string nombre = inputString("Ingrese el nombre del área: ");
+			string descripcion = inputString("Ingrese la descripción del área: ");
+			int numeroVentanillas = inputInt("Ingrese la cantidad de ventanillas: ");
 
-	controlador.agregarArea(codigo, nombre, descripcion, numeroVentanillas);
+			if (numeroVentanillas <= 0)
+				throw runtime_error("La cantidad de ventanillas debe ser mayor a cero.");
 
-	cout << "Área agregada exitosamente." << endl;
+			controlador.agregarArea(codigo, nombre, descripcion, numeroVentanillas);
+			cout << "Área agregada exitosamente." << endl;
+			flag = false; // Salir del bucle si no hay errores
+		}
+		catch (const std::exception& e) {
+			cout << "Error: " << e.what() << " Por favor, intente de nuevo." << endl;
+		}
+	}
 }
 
 static bool listAreas() {
@@ -221,22 +295,43 @@ static Area lookForArea(int pos) {
 	return controlador.buscarArea(pos);// Retornar un objeto de tipo Area //Revisar, return se puso en el controlador
 }
 
+static void cleanQueue() {
+	controlador.limpiarColas();
+	cout << "Se limpiaron las colas correctamente." << endl;
+}
+
+/*STATISTICS*/
+
+static void cleanStatistics() {
+	controlador.limpiarEstadisticas();
+	cout << "Se limpiaron las estadísticas correctamente." << endl;
+}
+
 /*SERVICES*/
 
 static void addService() {
-	string nombre = inputString("Ingrese el nombre del servicio: ");
-	string descripcion = inputString("Ingrese la descripción del servicio: ");
-	int prioridad = inputInt("Ingrese la prioridad del servicio: ");
-	
-	listAreas();
-	int area = inputInt("Ingrese el número de área: ") - 1;
+	bool flag = true;
+	while (flag) {
+		try {
+			string nombre = inputString("Ingrese el nombre del servicio: ");
+			string descripcion = inputString("Ingrese la descripción del servicio: ");
+			int prioridad = inputInt("Ingrese la prioridad del servicio: ");
 
-	if (prioridad < 0)
-		throw runtime_error("La prioridad no puede ser negativa.");
+			if (prioridad < 0)
+				throw runtime_error("La prioridad no puede ser negativa.");
 
-	Area areaAtencion = lookForArea(area);
-	controlador.agregarServicio(nombre, descripcion, prioridad, areaAtencion);
-	cout << "Servicio agregado exitosamente." << endl;
+			listAreas();
+			int area = inputInt("Ingrese el número de área: ") - 1;
+
+			Area areaAtencion = lookForArea(area);
+			controlador.agregarServicio(nombre, descripcion, prioridad, areaAtencion);
+			cout << "Servicio agregado exitosamente." << endl;
+			flag = false; // Salir del bucle si no hay errores
+		}
+		catch (const std::exception& e) {
+			cout << "Error: " << e.what() << " Por favor, intente de nuevo." << endl;
+		}
+	}
 }
 
 static void deleteService() {
@@ -246,10 +341,10 @@ static void deleteService() {
 
 static void reorderService() {
 	int posicion = inputInt("Ingrese el número de servicio que desea reordenar: ") - 1;
-	int nuevaPrioridad = inputInt("Ingrese la nueva prioridad del servicio: ") - 1;
-	if (nuevaPrioridad < 0)
+	int nuevaPos = inputInt("Ingrese la nueva posición del servicio: ") - 1;
+	if (nuevaPos < 0)
 		throw runtime_error("La prioridad no puede ser negativa.");
-	controlador.reordenarServicios(posicion, nuevaPrioridad);
+	controlador.reordenarServicios(posicion, nuevaPos);
 	cout << "Servicio modificado exitosamente." << endl;
 }
 
@@ -257,6 +352,10 @@ static bool listServices() {
 	// Aquí se mostrarían los servicios disponibles
 	cout << "Servicios disponibles:" << endl;
 	return controlador.listarServicios(); //Revisar, return se puso en el controlador
+}
+
+static Servicio lookForService(int pos) {
+	return controlador.buscarServicio(pos);
 }
 
 /*AUXILIARES*/
@@ -269,38 +368,33 @@ static void waitAndClear() {
 
 // AUX_OPCION 2
 static void createTicket(const int& userType, const int& service) {
-	// Obtener el servicio seleccionado
-	Servicio servicioSeleccionado = controlador.buscarServicio(service - 1);
+	bool ticketCreated = false;
+	
+	Servicio servicioAsociado = lookForService(service);
+	TipoUsuario tipoUsuarioAsociado = lookForUserType(userType);
+	
+	indiceGlobal++;
+	indiceGlobal = ((indiceGlobal - 100) % 900) + 100;
 
-	// Obtener el área asociada al servicio
-	Area areaAsociada = servicioSeleccionado.getAreaAtencion();
+	bool agregadoCorrectamente = controlador.agregarTiquete(servicioAsociado, tipoUsuarioAsociado, indiceGlobal);
+	
+	if (agregadoCorrectamente) {
+		cout << "Tiquete agregado correctamente." << endl;
+		ticketCreated = true; // Salir del bucle si se crea correctamente
+	}
+	else {
+		throw runtime_error("Tiquete no se agregó correctamente.");
+	}
 
-	// Generar el código del tiquete
-	string codigoTiquete = areaAsociada.getCodigo() + std::to_string(indiceGlobal++);
-
-	// Calcular la prioridad del tiquete
-	int prioridadUsuario = controlador.prioridadTipoUsuario(userType - 1);
-	int prioridadServicio = servicioSeleccionado.getPrioridad();
-	int prioridadFinal = prioridadUsuario * 10 + prioridadServicio;
-
-	// Crear el tiquete - LA HORA SE INICIALIZA DENTRO DEL CONSTRUCTOR
-	Tiquete nuevoTiquete(codigoTiquete, prioridadFinal);
-
-	// Agregar el tiquete a la cola del área
-	areaAsociada.getColaTiquetes()->insert(nuevoTiquete, prioridadFinal);
-
-	// Mostrar mensaje de confirmación
-	cout << "Tiquete creado con éxito:" << endl;
-	nuevoTiquete.print();
 }
 
 static void getTicket() {
 
 	printUserTypes(); // Listar tipos de usuarios del 1 al número de tipos
-	int userType = inputInt("Seleccione el numero de tipo de usuario: ");
+	int userType = inputInt("Seleccione el numero de tipo de usuario: ") - 1;
 
 	printServices(); // Listar servicios del 1 al número de tipos
-	int service = inputInt("Seleccione el numero de servicio: ");
+	int service = inputInt("Seleccione el numero de servicio: ") - 1;
 
 	createTicket(userType, service);
 }
@@ -473,15 +567,9 @@ static void admServices() {
 }
 
 static void admClearQueueStatistics() {
-	/*
-	Elimina los contenidos de todas las colas de prioridad, los tiquetes atendidos en ventanillas y
-	los datos de las estadísticas que se hayan registrado hasta el momento. Es una reinicialización
-	del sistema sin alterar tipos de usuario, servicios, ni áreas. Luego de realizar la acción regresa al
-	menú de administración.
-	*/
-
 	waitAndClear();
-	cout << "Se limpiaron las colas y estadísticas" << endl;
+	cleanQueue();
+	cleanStatistics();
 }
 
 /*OPCIONES PRINCIPALES*/
@@ -496,6 +584,7 @@ static void queueState() {
 //OPCION 2
 static void ticket() {
 	int option = -1;
+
 	while (option != 0) {
 		waitAndClear();
 
@@ -568,6 +657,10 @@ static void statistics() {
 
 /*MAIN*/
 int main() {
+
+	/*PRUEBA*/
+	agregarAreas();agregarServicios();agregarTiposUsuarios();
+	//printAreas();printServices();printUserTypes();
 
 	try {
 		printTitle();

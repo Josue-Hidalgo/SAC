@@ -37,7 +37,6 @@ private:
 	int numeroVentanillas;
 	ArrayList<Ventanilla> listaVentanillas;
 	LinkedPriorityQueue<Tiquete>* colaTiquetes;
-
 	ArrayList<Ventanilla> crearVentanillas(int cantidad) {
 		if (cantidad <= 0)
 			throw runtime_error("La cantidad de ventanillas debe ser mayor a cero.");
@@ -63,7 +62,10 @@ public:
 	}
 
 	~Area() {
-		delete colaTiquetes;
+		if (colaTiquetes) {
+			delete colaTiquetes;
+			colaTiquetes = nullptr;
+		}
 	}
 
 	// Modificación del constructor de copia para corregir los errores

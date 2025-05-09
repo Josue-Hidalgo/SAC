@@ -69,5 +69,17 @@ public:
 
 		return os;
 	}
+
+	// Operador de igual
+
+	Tiquete& operator=(const Tiquete& other) {
+		if (this != &other) { // Verificar autoasignación
+			this->codigo = other.codigo;
+			this->hora = other.hora;
+			this->prioridadFinal = other.prioridadFinal;
+		}
+		return *this; // Devolver la referencia al objeto actual
+	}
+
 };
 

@@ -7,7 +7,7 @@
 	Descripcion:
 
 	Autores:
-	- Sebastian Masís 
+	- Sebastian Masís // Josue Hidalgo
 
 */
 
@@ -58,6 +58,7 @@ public:
 
 		return listaPromedios;
 	}
+	
 	void acumularTiqueteArea(Area area) {
 
 		for (int i = 0; i < porArea.getSize(); i++) {
@@ -73,9 +74,19 @@ public:
 			}
 		}
 	}
-	int tiquetesVentanilla(Ventanilla ventanilla);
-	int tiquetesServicio(Servicio servicio);
-	int tiquetesTipoUsuario(TipoUsuario tipoUsuario);
+
+	//int tiquetesVentanilla(Ventanilla ventanilla);
+	//int tiquetesServicio(Servicio servicio);
+	//int tiquetesTipoUsuario(TipoUsuario tipoUsuario);
+
+	void limpiar() {
+		tiempoArea.clear();
+		porArea.clear();
+		porVentanilla.clear();
+		porServicio.clear();
+		porTipoUsuario.clear();
+	}
+
 
 };
 

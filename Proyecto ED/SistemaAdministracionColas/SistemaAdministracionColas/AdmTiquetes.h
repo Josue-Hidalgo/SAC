@@ -16,8 +16,6 @@
 #include <string>
 #include <stdexcept>
 #include "LinkedPriorityQueue.h"
-#include "Tiquete.h"
-#include "Ventanilla.h"
 #include "ArrayList.h"
 
 using std::cout;
@@ -43,11 +41,20 @@ public:
 
 	~AdmTiquetes() {}
 
-	void agregar(string codigoArea, int indiceGlobal) {
-		string codigoTiquete = generarCodigo(codigoArea, indiceGlobal);
+	Area agregar(Servicio servicio, TipoUsuario tipoUsuario, int indice) {
+
+		Area area = servicio.getAreaAtencion();
+
+		string codigoTiquete = generarCodigo(area.getCodigo(), indice);
+		int prioridadTiquete = generarPrioridad(tipoUsuario.getPrioridad(), servicio.getPrioridad());
+		
+		Tiquete nuevoTiquete = Tiquete(codigoTiquete, prioridadTiquete);
+		area.agregarTiquete(nuevoTiquete);
+		
+		return area;
 	}
 
-	void eliminar();
-	void buscar();
-	void listar();
+	//void eliminar();
+	//void buscar();
+	//void listar();
 };

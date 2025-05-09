@@ -68,5 +68,18 @@ public:
 	void print() {
 		pairs->print();
 	}
+
+	// Operador de Igual
+	bool operator==(const HeapPriorityQueue<E>& other) {
+		if (this == &other)
+			return true;
+		if (pairs->getSize() != other.getSize())
+			return false;
+		for (int i = 0; i < pairs->getSize(); i++) {
+			if (pairs->removeFirst() != other.removeMin())
+				return false;
+		}
+		return true;
+	}
 };
 

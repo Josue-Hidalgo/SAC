@@ -73,7 +73,7 @@ public:
 
 	void insert(E element, int priority) {
 		if (priorities < priority || priority < 0)
-			throw runtime_error("Invalid Priority.");
+			throw runtime_error("Invalid Priority");
 		queues[priority].enqueue(element);
 		size++;
 	}

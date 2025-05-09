@@ -57,6 +57,17 @@ public:
 		return servicio.getNombre();
 	}
 
+	void eliminar(Area area) {
+		if (isEmpty())
+			throw runtime_error("La lista de servicios está vacía.");
+
+		for (int i = 0; i < listaServicios->getSize(); i++) {
+			listaServicios->goToPos(i);
+			if (listaServicios->getElement().getAreaAtencion() == area)
+				listaServicios->remove();
+		}
+	}
+
 	void modificar(int posActual, int posNueva) {
 		listaServicios->goToPos(posActual);
 		Servicio servicio = listaServicios->remove();

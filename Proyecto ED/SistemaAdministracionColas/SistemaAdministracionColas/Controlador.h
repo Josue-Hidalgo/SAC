@@ -33,22 +33,26 @@ private:
 	AdmTiposUsuario* adminTiposUsuario;
 	AdmServicio* adminServicio;
 	AdmAreas* adminAreas;
+	AdmEstadisticas* estadisticas;
+	AdmTiquetes adminTiquetes;
 
 public:
 	Controlador() {
 		adminTiposUsuario = new AdmTiposUsuario();
 		adminServicio = new AdmServicio();
 		adminAreas = new AdmAreas();
+		estadisticas = new AdmEstadisticas();
 	}
 
 	~Controlador() {
 		delete adminTiposUsuario;
 		delete adminServicio;
 		delete adminAreas;
+		delete estadisticas;
 	}
 
 	void agregarTipoUsuario(string nombre, string descripcion, int prioridad) {
-		adminTiposUsuario->agregar(nombre, descripcion, prioridad); //Estos fue lo que se usó en el main
+		adminTiposUsuario->agregar(nombre, descripcion, prioridad);
 	}
 
 	bool listarTiposUsuario() {
@@ -74,11 +78,17 @@ public:
 	}
 
 	bool listarAreasCantVentanillasTiquetes() {
-		return adminAreas->listarCantVentanillasTiquetes();
+		return adminAreas->listarAreasCantVentanillas();
 	}
 
 	string eliminarArea(int posicion) {
+		Area area = buscarArea(posicion);
+		adminServicio->eliminar(area);
 		return adminAreas->eliminar(posicion);
+	}
+
+	void limpiarColas() {
+		adminAreas->limpiarColas();
 	}
 
 	void modificarAreaVentanillas(int posicion, int nuevoNumeroVentanillas) {
@@ -97,8 +107,12 @@ public:
 		return adminServicio->eliminar(posicion);
 	}
 
-	void reordenarServicios(int posicion, int nuevaPrioridad) {
-		adminServicio->modificar(posicion, nuevaPrioridad);
+	void eliminarServicio(Area area) {
+		adminServicio->eliminar(area);
+	}
+
+	void reordenarServicios(int posicion, int nuevaPos) {
+		adminServicio->modificar(posicion, nuevaPos);
 	}
 
 	bool listarServicios() {
@@ -112,13 +126,20 @@ public:
 
 	}
 
-	//void agregarTiquete();
+	bool agregarTiquete(Servicio servicio, TipoUsuario tipoUsuario, int indice) {
+		
+		if (indice < 100 || indice > 999)
+			throw runtime_error("El índice debe estar entre 100 y 999.");
+
+		Area areaConTiqueteAgregado = adminTiquetes.agregar(servicio, tipoUsuario, indice);
+		return adminAreas->modificarArea(areaConTiqueteAgregado);
+	}
 
 	//void eliminarTiquete();
 
-	void listarTiquetes();
+	//void listarTiquetes();
 	
-	void listarCodigosTiquetes();
+	//void listarCodigosTiquetes();
 
 	//void buscarTiquete();
 
@@ -136,6 +157,10 @@ public:
 		//estadisticas.acumularTiqueteVentanilla();
 		//estadisticas.acumularTiqueteServicio();
 		//estadisticas.acumularTiqueteTipoUsuario();
+	}
+
+	void limpiarEstadisticas() {
+		estadisticas->limpiar();
 	}
 
 	int prioridadTipoUsuario(int pos) {

@@ -47,9 +47,9 @@ public:
 	}
 
 	bool listar() {
-		if (!listaTiposUsuarios->isEmpty()) {
-			cout << "No hay tipos de usuario registrados." << endl;
-			return listaTiposUsuarios->isEmpty();
+		if (listaTiposUsuarios->isEmpty()) {
+			cout << "No hay Tipos Registrados." << endl;
+			return "";
 		}
 
 		cout << "\nTipos de usuario registrados:\n" << endl;

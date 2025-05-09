@@ -62,29 +62,30 @@ public:
 		return false;
 	}
 
-	bool listarCantVentanillasTiquetes() {
-
+	bool listarAreasCantVentanillas() {
 		if (listaAreas->isEmpty()) {
 			cout << "No hay áreas registradas." << endl;
 			return listaAreas->isEmpty();
 		}
-
 		cout << "\nÁreas registradas:\n" << endl;
-		
 		for (int i = 0; i < listaAreas->getSize(); i++) {
 			listaAreas->goToPos(i);
 
 			Area area = listaAreas->getElement();
 			LinkedPriorityQueue<Tiquete>* colaTiquetes = area.getColaTiquetes();
 
-			cout << "Nombre del Área:" << area.getNombre() << endl;
-			cout << "  " << area.getNumeroVentanillas() << endl;
-			
-			cout << "\nTiquetes en cola del Área " << area.getNombre() << ":" << endl;
-			if (colaTiquetes->isEmpty())
-				cout << "No hay tiquetes en cola." << endl;
-			else
-				colaTiquetes->print();
+			cout << "Nombre del Área: " << area.getNombre() << endl;
+			cout << "Cantidad de Ventanillas: " << area.getNumeroVentanillas() << endl;
+			/**/
+			if (colaTiquetes == nullptr || colaTiquetes->isEmpty()) {
+				cout << "Ningún tiquete en espera." << endl;
+			}
+			else {
+				cout << "Usuarios en espera: " << endl;
+				cout << colaTiquetes;
+			}
+			cout << endl;
+
 		}
 		return false;
 	}
@@ -99,7 +100,6 @@ public:
 			cout << "Posición inválida." << endl;
 			return "";
 		}
-
 		listaAreas->goToPos(posicion);
 		Area area = listaAreas->remove();
 		return area.getNombre();
@@ -127,5 +127,29 @@ public:
 		return listaAreas->getElement();
 	}
 
+	bool modificarArea(Area area) {
+		for (int i = 0; i < listaAreas->getSize(); i++) {
+			listaAreas->goToPos(i);
+			Area actual = listaAreas->getElement();
+			if (area.getCodigo() == actual.getCodigo()) {
+				listaAreas->remove();
+				listaAreas->insert(area);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	void limpiarColas() {
+		for (int i = 0; i < listaAreas->getSize(); i++) {
+			listaAreas->goToPos(i);
+			Area area = listaAreas->getElement();
+			LinkedPriorityQueue<Tiquete>* colaTiquetes = area.getColaTiquetes();
+			if (colaTiquetes != nullptr) {
+				colaTiquetes->clear();
+			}
+		}
+		cout << "Colas de todas las áreas han sido limpiadas." << endl;
+	}
 };
 
