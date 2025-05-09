@@ -55,8 +55,8 @@ public:
 		return adminTiposUsuario->listar();
 	}
 
-	void eliminarTipoUsuario(int posicion) {
-		adminTiposUsuario->eliminar(posicion);
+	string eliminarTipoUsuario(int posicion) {
+		return adminTiposUsuario->eliminar(posicion);
 	}
 
 	//TipoUsuario buscarTipoUsuario();
@@ -73,8 +73,8 @@ public:
 		return adminAreas->listarCantVentanillasTiquetes();
 	}
 
-	void eliminarArea(int posicion) {
-		adminAreas->eliminar(posicion);
+	string eliminarArea(int posicion) {
+		return adminAreas->eliminar(posicion);
 	}
 
 	void modificarAreaVentanillas(int posicion, int nuevoNumeroVentanillas) {
@@ -89,8 +89,8 @@ public:
 		adminServicio->agregar(nombre, descripcion, prioridad, areaAtencion);
 	}
 
-    void eliminarServicio(int posicion) {
-       adminServicio->eliminar(posicion);
+    string eliminarServicio(int posicion) {
+       return adminServicio->eliminar(posicion);
     }
 
 	void reordenarServicios(int posicion, int nuevaPrioridad) {

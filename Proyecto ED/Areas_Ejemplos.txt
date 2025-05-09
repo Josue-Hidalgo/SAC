@@ -1,0 +1,49 @@
+1. codigo: "GEN01"
+   nombre: "Medicina General"
+   descripcion: "Área de atención médica básica sin especialidades"
+   numeroVentanillas: 3
+
+2. codigo: "EME01"
+   nombre: "Sala de Emergencias"
+   descripcion: "Área destinada a la atención inmediata de urgencias"
+   numeroVentanillas: 5
+
+3. codigo: "ADM01"
+   nombre: "Recepción"
+   descripcion: "Área de trámites administrativos y atención al público"
+   numeroVentanillas: 4
+
+4. codigo: "PED01"
+   nombre: "Pediatría"
+   descripcion: "Área especializada en atención médica a menores"
+   numeroVentanillas: 2
+
+5. codigo: "ODO01"
+   nombre: "Odontología"
+   descripcion: "Área para servicios dentales generales y especializados"
+   numeroVentanillas: 2
+
+6. codigo: "LEG01"
+   nombre: "Oficina Legal"
+   descripcion: "Área de orientación jurídica a usuarios"
+   numeroVentanillas: 1
+
+7. codigo: "LAB01"
+   nombre: "Laboratorio"
+   descripcion: "Área de análisis clínicos y toma de muestras"
+   numeroVentanillas: 3
+
+8. codigo: "ENF01"
+   nombre: "Enfermería"
+   descripcion: "Área para aplicación de tratamientos y vacunas"
+   numeroVentanillas: 2
+
+9. codigo: "PSI01"
+   nombre: "Psicología"
+   descripcion: "Área de atención psicológica y contención emocional"
+   numeroVentanillas: 1
+
+10. codigo: "ESP01"
+    nombre: "Atención Especial"
+    descripcion: "Área adaptada para usuarios con discapacidad"
+    numeroVentanillas: 2
