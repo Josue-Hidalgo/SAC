@@ -37,7 +37,7 @@ private:
 
 public:
 	// Constructor por defecto
-	Tiquete() : codigo(""), hora(0), prioridadFinal(0) {}
+	Tiquete() : codigo(""), hora(time(nullptr)), prioridadFinal(0) {}
 
 	Tiquete(string codigo, int prioridadFinal)
 		: codigo(codigo), prioridadFinal(prioridadFinal) { hora = time(nullptr); }

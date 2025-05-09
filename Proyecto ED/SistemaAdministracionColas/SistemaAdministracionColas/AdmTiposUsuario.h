@@ -56,7 +56,7 @@ public:
 		for (int i = 0; i < listaTiposUsuarios->getSize(); i++) {
 			listaTiposUsuarios->goToPos(i);
 			TipoUsuario tipoUsuario = listaTiposUsuarios->getElement();
-			cout << "Tipo de Usuario #" << i + 1 << "\n" << tipoUsuario << endl;
+			cout << "Tipo de Usuario #" << i + 1 << ": " << tipoUsuario << endl;
 		}
 		return listaTiposUsuarios->isEmpty();
 	}
@@ -77,7 +77,19 @@ public:
 		return tipoUsuarioEliminado.getNombre();
 	}
 
-	//void buscar();
+	int getSize() {
+		return listaTiposUsuarios->getSize();
+	}
+
+	TipoUsuario buscar(int pos) {
+		if (pos < 0 || pos >= listaTiposUsuarios->getSize()) 
+			throw runtime_error("Posición inválida.");
+		listaTiposUsuarios->goToPos(pos);
+		TipoUsuario tipoUsuarioBuscado = listaTiposUsuarios->getElement();
+		cout << "Tipo de Usuario #" << pos + 1 << ": " << tipoUsuarioBuscado << endl;
+		return tipoUsuarioBuscado;
+	}
+
 	//void print();
 };
 

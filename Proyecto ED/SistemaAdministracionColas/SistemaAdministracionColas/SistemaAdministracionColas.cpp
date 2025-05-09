@@ -12,7 +12,7 @@
 
 	Autores:
 		Josue Hidalgo
-		Sebastián
+		Sebastián Masís
 		Marvin
 
 */
@@ -21,6 +21,8 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>
+#include <ctime>
+
 
 // Clases 
 #include "Controlador.h"
@@ -286,9 +288,29 @@ static void waitAndClear() {
 
 // AUX_OPCION 2
 static void createTicket(const int& userType, const int& service) {
-	// Aquí se implementaría la lógica para crear un tiquete
-	cout << "Creando un tiquete..." << endl;
-	// Lógica para crear el tiquete y agregarlo a la cola correspondiente
+	// Obtener el servicio seleccionado
+	Servicio servicioSeleccionado = controlador.buscarServicio(service - 1);
+
+	// Obtener el área asociada al servicio
+	Area areaAsociada = servicioSeleccionado.getAreaAtencion();
+
+	// Generar el código del tiquete
+	string codigoTiquete = areaAsociada.getCodigo() + std::to_string(indiceGlobal++);
+
+	// Calcular la prioridad del tiquete
+	int prioridadUsuario = controlador.prioridadTipoUsuario(userType - 1);
+	int prioridadServicio = servicioSeleccionado.getPrioridad();
+	int prioridadFinal = prioridadUsuario * 10 + prioridadServicio;
+
+	// Crear el tiquete - LA HORA SE INICIALIZA DENTRO DEL CONSTRUCTOR
+	Tiquete nuevoTiquete(codigoTiquete, prioridadFinal);
+
+	// Agregar el tiquete a la cola del área
+	areaAsociada.getColaTiquetes()->insert(nuevoTiquete, prioridadFinal);
+
+	// Mostrar mensaje de confirmación
+	cout << "Tiquete creado con éxito:" << endl;
+	nuevoTiquete.print();
 }
 
 static void getTicket() {
@@ -316,6 +338,44 @@ static void searchInQueue(const int& area, const int& windowNum) {
 		espera.
 
 	*/
+	Area areaSeleccionada = controlador.buscarArea(area - 1); // Restar 1 porque los índices del usuario son 1-based
+	LinkedPriorityQueue<Tiquete>* colaTiquetes = areaSeleccionada.getColaTiquetes();
+
+	// Verificar si la cola está vacía
+	if (colaTiquetes->isEmpty()) {
+		cout << "No hay usuarios en espera en el área seleccionada." << endl;
+		return;
+	}
+
+	// Obtener el siguiente tiquete de la cola
+	Tiquete siguienteTiquete = colaTiquetes->min();
+
+	// Obtener la ventanilla seleccionada
+	ArrayList<Ventanilla> listaVentanillas = areaSeleccionada.getListaVentanillas();
+	if (windowNum < 1 || windowNum > listaVentanillas.getSize()) {
+		cout << "Número de ventanilla inválido." << endl;
+		return;
+	}
+
+	Ventanilla ventanillaSeleccionada = listaVentanillas.get(windowNum - 1);
+
+	// Asignar el tiquete a la ventanilla
+	ventanillaSeleccionada.setTiqueteAtendido(siguienteTiquete.getCodigo());
+
+	// Calcular el tiempo de espera
+	time_t tiempoActual = time(nullptr);
+	int tiempoEspera = static_cast<int>(tiempoActual - siguienteTiquete.getHora());
+
+	// Actualizar estadísticas en AdmEstadisticas
+	AdmEstadisticas estadisticas;
+	estadisticas.acumularTiqueteArea(areaSeleccionada, tiempoEspera);
+
+	// Actualizar estadísticas de la ventanilla
+	ventanillaSeleccionada.incrementarCantidadTiquetesAtendidos(); // Método hipotético para incrementar el contador de tiquetes atendidos
+
+	// Mostrar información del tiquete atendido
+	cout << "Tiquete atendido con éxito en la ventanilla " << ventanillaSeleccionada.getNombre() << ":" << endl;
+	siguienteTiquete.print();
 }
 
 // AUX_OPCION 4

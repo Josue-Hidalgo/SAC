@@ -78,5 +78,14 @@ public:
 		return false;
 	}
 
-	//int buscarServicio(const string& nombre) const {}
+	int getSize() const { return listaServicios->getSize(); }
+
+	Servicio buscarServicio(int pos) {
+		if (isEmpty())
+			throw runtime_error("La lista de servicios está vacía.");
+		if (!isValidPosition(pos))
+			throw runtime_error("Posición inválida.");
+		listaServicios->goToPos(pos);
+		return listaServicios->getElement();
+	}
 };

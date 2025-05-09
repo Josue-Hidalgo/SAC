@@ -59,5 +59,6 @@ public:
 			<< "Área de Atención: " << servicio.areaAtencion.getNombre() << "\n";
 		return os;
 	}
+	int getPrioridad() const { return prioridad; }
 };
 

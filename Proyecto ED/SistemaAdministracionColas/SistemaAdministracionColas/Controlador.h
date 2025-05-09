@@ -59,12 +59,16 @@ public:
 		adminTiposUsuario->eliminar(posicion);
 	}
 
-	//TipoUsuario buscarTipoUsuario();
-	
+	TipoUsuario buscarTipoUsuario(int pos) {
+		if (pos < 0 || pos >= adminTiposUsuario->getSize())
+			throw runtime_error("Posición inválida.");
+		return adminTiposUsuario->buscar(pos);
+	}
+
 	void agregarArea(string codigo, string nombre, string descripcion, int numeroVetanillas) {
 		adminAreas->agregar(codigo, nombre, descripcion, numeroVetanillas);
 	}
-		
+
 	bool listarAreas() {
 		return adminAreas->listar();
 	}
@@ -80,7 +84,7 @@ public:
 	void modificarAreaVentanillas(int posicion, int nuevoNumeroVentanillas) {
 		adminAreas->modificar(posicion, nuevoNumeroVentanillas);
 	}
-	
+
 	Area buscarArea(int pos) {
 		return adminAreas->buscar(pos);
 	}
@@ -89,9 +93,9 @@ public:
 		adminServicio->agregar(nombre, descripcion, prioridad, areaAtencion);
 	}
 
-    void eliminarServicio(int posicion) {
-       adminServicio->eliminar(posicion);
-    }
+	void eliminarServicio(int posicion) {
+		adminServicio->eliminar(posicion);
+	}
 
 	void reordenarServicios(int posicion, int nuevaPrioridad) {
 		adminServicio->modificar(posicion, nuevaPrioridad);
@@ -100,8 +104,13 @@ public:
 	bool listarServicios() {
 		return adminServicio->listar();
 	}
-	
-	//void buscarServicio();
+
+	Servicio buscarServicio(int pos) {
+		if (pos < 0 || pos >= adminServicio->getSize())
+			throw runtime_error("Posición inválida.");
+		return adminServicio->buscarServicio(pos);
+
+	}
 
 	//void agregarTiquete();
 
@@ -127,5 +136,11 @@ public:
 		//estadisticas.acumularTiqueteVentanilla();
 		//estadisticas.acumularTiqueteServicio();
 		//estadisticas.acumularTiqueteTipoUsuario();
+	}
+
+	int prioridadTipoUsuario(int pos) {
+		if (pos < 0 || pos >= adminTiposUsuario->getSize())
+			throw runtime_error("Posición inválida.");
+		return adminTiposUsuario->buscar(pos).getPrioridad();
 	}
 };

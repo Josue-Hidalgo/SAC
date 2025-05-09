@@ -181,6 +181,12 @@ public:
 
 	}
 
+	E get(int pos) {
+		if (pos < 0 || pos >= size)
+			throw runtime_error("Index out of range.");
+		return elements[pos];
+	}
+
 	// Operador de Asignación
 	void operator =(const ArrayList<E>& other) {
 		
