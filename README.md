@@ -11,7 +11,7 @@
 [Link Documentation](https://drive.google.com/drive/folders/1DubDwuWA3XmyeDXJ5gcQBNAIwk_ApJRm?usp=sharing)
 
 # Contribuidores/Integrantes #
-- Josue Hidalgo // Marvin Castro // Sebastián ...
+- Josue Hidalgo // Marvin Castro // Sebastián Masís
 
 # Contacto #
 - j.hidalgo.5@estudiantec.cr // mar_castro@estudiantec.cr // 
