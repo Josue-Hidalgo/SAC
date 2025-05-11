@@ -253,7 +253,7 @@ static TipoUsuario lookForUserType(int pos) {
 /*AREAS*/
 static void addArea() {
 	bool flag = true;
-	while (true) {
+	while (flag) {
 		try {
 			string codigo = inputString("Ingrese el código del área: ");
 			string nombre = inputString("Ingrese el nombre del área: ");

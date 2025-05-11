@@ -32,7 +32,6 @@ private:
 
 	bool isEmpty() const { return listaServicios->isEmpty(); }
 	bool isValidPosition(int posicion) const { return posicion >= 0 && posicion < listaServicios->getSize(); }
-	int getSize() const { return listaServicios->getSize(); }
 
 public:
 	
@@ -41,6 +40,8 @@ public:
 	~AdmServicio() {
 		delete listaServicios;
 	}
+
+	int getSize() const { return listaServicios->getSize(); }
 
 	void agregar(string nombre, string descripcion, int prioridad, Area areaAtencion) {
 		Servicio nuevoServicio(nombre, descripcion, prioridad, areaAtencion);

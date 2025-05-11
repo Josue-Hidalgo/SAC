@@ -31,11 +31,9 @@ class AdmTiposUsuario {
 
 private:
 	SortedArrayList<TipoUsuario>* listaTiposUsuarios;
-
+public:
 	int getSize() { return listaTiposUsuarios->getSize(); }
 
-public:
-	
 	AdmTiposUsuario() {
 		listaTiposUsuarios = new SortedArrayList<TipoUsuario>();
 	}
