@@ -38,6 +38,7 @@ public:
     Servicio(string nombre, string descripcion, int prioridad, Area areaAtencion) 
         :nombre(nombre), descripcion(descripcion), prioridad(prioridad), areaAtencion(areaAtencion) {}
 
+    int getPrioridad() const { return prioridad; }
     string getNombre() const { return nombre; }
     string getDescripcion() const { return descripcion; }
     Area getAreaAtencion() const { return areaAtencion; }
@@ -59,6 +60,5 @@ public:
 			<< "Área de Atención: " << servicio.areaAtencion.getNombre() << "\n";
 		return os;
 	}
-	int getPrioridad() const { return prioridad; }
 };
 

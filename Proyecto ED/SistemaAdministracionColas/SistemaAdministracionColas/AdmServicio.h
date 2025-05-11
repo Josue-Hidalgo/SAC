@@ -32,6 +32,7 @@ private:
 
 	bool isEmpty() const { return listaServicios->isEmpty(); }
 	bool isValidPosition(int posicion) const { return posicion >= 0 && posicion < listaServicios->getSize(); }
+	int getSize() const { return listaServicios->getSize(); }
 
 public:
 	
@@ -88,8 +89,6 @@ public:
 		}
 		return false;
 	}
-
-	int getSize() const { return listaServicios->getSize(); }
 
 	Servicio buscarServicio(int pos) {
 		if (isEmpty())

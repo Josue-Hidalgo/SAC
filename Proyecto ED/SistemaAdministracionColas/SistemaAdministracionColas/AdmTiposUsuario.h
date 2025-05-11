@@ -31,6 +31,9 @@ class AdmTiposUsuario {
 
 private:
 	SortedArrayList<TipoUsuario>* listaTiposUsuarios;
+
+	int getSize() { return listaTiposUsuarios->getSize(); }
+
 public:
 	
 	AdmTiposUsuario() {
@@ -77,10 +80,6 @@ public:
 		return tipoUsuarioEliminado.getNombre();
 	}
 
-	int getSize() {
-		return listaTiposUsuarios->getSize();
-	}
-
 	TipoUsuario buscar(int pos) {
 		if (pos < 0 || pos >= listaTiposUsuarios->getSize()) 
 			throw runtime_error("Posición inválida.");
@@ -89,7 +88,5 @@ public:
 		cout << "Tipo de Usuario #" << pos + 1 << ": " << tipoUsuarioBuscado << endl;
 		return tipoUsuarioBuscado;
 	}
-
-	//void print();
 };
 
